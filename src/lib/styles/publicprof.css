@@ -1,0 +1,109 @@
+.profile-card {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    background: #fff;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: "Plus Jakarta Sans", sans-serif;
+
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile-header h2 {
+    font-size: x-large;
+    font-weight: 700;
+}
+
+.profile-header .logo-text {
+    font-size: xx-large;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.location {
+    color: #555;
+    font-size: 0.85rem;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 1.5rem;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.stats strong {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: black;
+}
+
+.stats {
+    color: #555;
+}
+
+
+.about,
+.contact-info {
+    margin-left: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.about h3,
+.contact-info h3 {
+    margin-bottom: 0.5rem;
+    font-size: large;
+    font-weight: bolder;
+    /* text-decoration: unde; */
+}
+
+.about p {
+    color: #555;
+}
+
+
+
+
+.contact-info p {
+    margin: 0.3rem 0;
+}
+
+.post {
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    background: #fafafa;
+}
+
+.post h4 {
+    margin: 0 0 0.5rem;
+}
+
+.error {
+    color: red;
+    text-align: center;
+}
+
+.loading {
+    text-align: center;
+    color: #666;
+}
