@@ -75,3 +75,89 @@
 .connect-btn:hover {
     background-color: #6366f1;
 }
+
+.people-list.loading {
+    max-height: 600px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 12px;
+}
+
+.person-card.loading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s ease;
+}
+
+.logo-icon.loading {
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 24px;
+    color: #374151;
+}
+
+.info.loading {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.name.loading,
+.title.loading,
+.bio.loading {
+    height: 16px;
+    border-radius: 4px;
+    background-color: #e5e7eb;
+}
+
+.name.loading {
+    width: 150px;
+}
+
+.title.loading {
+    width: 120px;
+}
+
+.bio.loading {
+    width: 200px;
+}
+
+.connect-btn.loading {
+    width: 80px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #e5e7eb;
+}
+
+/* Skeleton Animation */
+@keyframes pulse {
+    0% {
+        background-color: #e5e7eb;
+    }
+
+    50% {
+        background-color: #f3f4f6;
+    }
+
+    100% {
+        background-color: #e5e7eb;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 1.5s infinite ease-in-out;
+}
