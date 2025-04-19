@@ -84,7 +84,17 @@
 				</div>
 			{/each}
 		{:else}
-			<p>Loading...</p>
+			{#each [...Array(10)] as i}
+				<div class="person-card loading skeleton">
+					<div class="logo-icon loading animate-pulse"></div>
+					<div class="info">
+						<div class="name loading placeholder animate-pulse"></div>
+						<div class="title loading placeholder animate-pulse"></div>
+						<div class="bio loading placeholder animate-pulse"></div>
+					</div>
+					<div class="connect-btn loading placeholder animate-pulse"></div>
+				</div>
+			{/each}
 		{/if}
 	</div>
 </div>

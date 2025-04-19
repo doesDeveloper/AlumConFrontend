@@ -5,8 +5,8 @@
 
 <div class="sidebar">
 	<div class="logo">
-		<div class="logo-icon">S</div>
-		<span>slothui</span>
+		<div class="logo-icon">A</div>
+		<span>AlumCon</span>
 	</div>
 	<div class="search-box">
 		<input type="text" placeholder="Search..." />
