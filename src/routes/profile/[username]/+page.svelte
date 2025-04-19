@@ -99,91 +99,80 @@
 				</p>
 			</div> -->
 
-				<h3 style="margin-top: 2rem;">Posts by @{publicUser.username}</h3>
+				<h3 style="font-size:larger;">Posts</h3>
 				{#if loading}
-					<p>Loading posts…</p>
+					{#each [...Array(10)] as i}
+						<div class="post-card loading">
+							<div class="post-header">
+								<div class="logo-icon user-avatar skeleton-circle"></div>
+								<div class="user-info">
+									<div class="skeleton-text short"></div>
+									<div class="skeleton-text"></div>
+								</div>
+								<div class="post-menu skeleton-rect"></div>
+							</div>
+
+							<div class="post-content">
+								<div class="skeleton-text"></div>
+								<div class="skeleton-text"></div>
+								<div class="skeleton-text short"></div>
+							</div>
+
+							<div class="post-actions">
+								<div class="skeleton-text tiny"></div>
+								<div class="skeleton-text tiny"></div>
+								<div class="skeleton-text tiny"></div>
+							</div>
+						</div>
+					{/each}
 				{:else if posts.length === 0}
 					<p>No posts yet.</p>
 				{:else}
+					<!-- Post Card -->
 					{#each posts as post}
-						<div class="post">
-							<h4>{post.title}</h4>
-							<p>{post.content}</p>
-						</div>
-					{/each}
-				{/if}
-			</div>
-		{:else}
-			<p class="loading">Loading profile…</p>
-		{/if}
+						<div class="post-card">
+							<div class="post-header">
+								<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
+								<div class="user-info">
+									<div class="user-name">
+										<a href="/profile/{post.username}">{post.username}</a>
+									</div>
+									<!-- <div class="user-role">Product Designer, slothUI</div> -->
+								</div>
+								<div class="post-menu">⋮</div>
+							</div>
 
-		{#if loading}
-			{#each [...Array(10)] as i}
-				<div class="post-card loading">
-					<div class="post-header">
-						<div class="logo-icon user-avatar skeleton-circle"></div>
-						<div class="user-info">
-							<div class="skeleton-text short"></div>
-							<div class="skeleton-text"></div>
-						</div>
-						<div class="post-menu skeleton-rect"></div>
-					</div>
+							<div class="post-content">
+								<div class="post-title">{post.title}</div>
+								<p>
+									{post.content}
+								</p>
+								<!-- <span class="hashtags">#amazing #great #lifetime #uiux #machinelearning</span> -->
+							</div>
 
-					<div class="post-content">
-						<div class="skeleton-text"></div>
-						<div class="skeleton-text"></div>
-						<div class="skeleton-text short"></div>
-					</div>
-
-					<div class="post-actions">
-						<div class="skeleton-text tiny"></div>
-						<div class="skeleton-text tiny"></div>
-						<div class="skeleton-text tiny"></div>
-					</div>
-				</div>
-			{/each}
-		{:else if posts.length === 0}
-			<p>No posts yet.</p>
-		{:else}
-			<!-- Post Card -->
-			{#each posts as post}
-				<div class="post-card">
-					<div class="post-header">
-						<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
-						<div class="user-info">
-							<div class="user-name"><a href="/profile/{post.username}">{post.username}</a></div>
-							<!-- <div class="user-role">Product Designer, slothUI</div> -->
-						</div>
-						<div class="post-menu">⋮</div>
-					</div>
-                    
-					<div class="post-content">
-                        <div class="post-title">{post.title}</div>
-						<p>
-							{post.content}
-						</p>
-						<!-- <span class="hashtags">#amazing #great #lifetime #uiux #machinelearning</span> -->
-					</div>
-
-					<!-- <div class="post-image">
+							<!-- <div class="post-image">
 					<img src="assets/images/postimg.png" alt="Post Image" />
 				</div> -->
 
-					<div class="post-actions">
-						<div>❤️ {post.voteCount} Likes</div>
-						<div>💬 Comments</div>
-						<div>🔁 Share</div>
-					</div>
+							<div class="post-actions">
+								<div>❤️ {post.voteCount} Likes</div>
+								<div>💬 Comments</div>
+								<div>🔁 Share</div>
+							</div>
 
-					<!-- <div class="post-comment">
+							<!-- <div class="post-comment">
                     <img src="user-avatar.jpg" alt="User" class="comment-avatar">
                     <input type="text" placeholder="Write your comment...">
                     <div class="comment-icons">
                         😊 📎 📨
                     </div>
                 </div> -->
-				</div>
-			{/each}
+						</div>
+					{/each}
+				{/if}
+			</div>
+		{:else}
+			<p class="loading">Loading profile…</p>
 		{/if}
 	</div>
 </div>

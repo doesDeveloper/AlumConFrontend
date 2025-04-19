@@ -255,6 +255,6 @@
 	  text-decoration: underline;
 	}
   
-	.error { color: #c00; margin: 1rem 0; }
+	/* .error { color: #c00; margin: 1rem 0; } */
   </style>
   

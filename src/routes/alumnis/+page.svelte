@@ -79,7 +79,7 @@
 						<div class="name">
 							<a href="/profile/{user.username}">{user.firstName} {user.lastName}</a>
 						</div>
-						<div class="title">{user.jobTitle}</div>
+						<div class="title">{user.jobTitle} from {user.city}</div>
 						<div class="bio">{user.bio}</div>
 					</div>
 					<button class="connect-btn">Connect</button>
