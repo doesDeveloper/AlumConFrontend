@@ -16,12 +16,6 @@
       }
     }
   
-    function handleKeyClose(e) {
-      if (e.key === 'Enter' || e.key === ' ' || e.code === 'Space') {
-        e.preventDefault();
-        onClose();
-      }
-    }
   </script>
 
 {#if show}
