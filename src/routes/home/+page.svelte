@@ -182,13 +182,14 @@
 					<div class="post-header">
 						<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
 						<div class="user-info">
-							<div class="user-name">{post.username}</div>
-							<div class="user-role">Product Designer, slothUI</div>
+							<div class="user-name"><a href="/profile/{post.username}">{post.username}</a></div>
+							<!-- <div class="user-role">Product Designer, slothUI</div> -->
 						</div>
 						<div class="post-menu">⋮</div>
 					</div>
-
+                    
 					<div class="post-content">
+                        <div class="post-title">{post.title}</div>
 						<p>
 							{post.content}
 						</p>

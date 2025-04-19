@@ -76,7 +76,9 @@
 				<div class="person-card">
 					<div class="logo-icon">{user.username.charAt(0).toUpperCase()}</div>
 					<div class="info">
-						<div class="name">{user.firstName} {user.lastName}</div>
+						<div class="name">
+							<a href="/profile/{user.username}">{user.firstName} {user.lastName}</a>
+						</div>
 						<div class="title">{user.jobTitle}</div>
 						<div class="bio">{user.bio}</div>
 					</div>

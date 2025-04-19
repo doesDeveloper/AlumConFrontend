@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import Sidebar from '$lib/components/Sidebar.svelte';
+	import '$lib/styles/publicprof.css';
 
 	let publicUser = null;
 	let error = null;
@@ -32,6 +33,7 @@
 			});
 			if (!response.ok) throw new Error('Failed to fetch profile');
 			publicUser = await response.json();
+			console.log(publicUser);
 		} catch (err) {
 			error = err.message;
 		}
@@ -53,119 +55,138 @@
 		}
 	};
 </script>
+
 <div class="layout">
-<Sidebar/>
-{#if error}
-	<p class="error">{error}</p>
-{:else if publicUser}
-	<div class="profile-card">
-		<div class="profile-header">
-			<div  class="logo-icon profile-pic">
-			A</div>
-			<div>
-				<h2>{publicUser.firstName} {publicUser.lastName}</h2>
-				<p class="username">@{publicUser.username}</p>
-				<p class="location">{publicUser.city}</p>
+	<Sidebar />
+
+	<div class="center-container">
+		<div class="top-bar">
+			<input type="text" placeholder="Search for friends, groups, pages" />
+			<button class="add-post-btn">Add New Post ➕</button>
+		</div>
+		{#if error}
+			<p class="error">{error}</p>
+		{:else if publicUser}
+			<div class="profile-card">
+				<div class="profile-header">
+					<div class="logo-icon profile-pic logo-text">A</div>
+					<div>
+						<h2>{publicUser.firstName} {publicUser.lastName}</h2>
+						<p class="username">@{publicUser.username}</p>
+						<p class="location">From {publicUser.city}</p>
+					</div>
+				</div>
+				<div class="stats">
+					<div><strong>{posts.length}</strong><br /> Posts</div>
+					<div><strong>{publicUser.followers || '12.7K'}</strong><br /> Followers</div>
+					<div><strong>{publicUser.following || '221'}</strong> <br />Following</div>
+				</div>
+
+				<div class="about">
+					<h3>About Me</h3>
+					<p>{publicUser.bio}</p>
+				</div>
 			</div>
-		</div>
+			<div class="profile-card">
+				<!-- <div class="contact-info">
+				<h3>Contact</h3>
+				<p>📞 {publicUser.phone || '+123 456 789 000'}</p>
+				<p>✉️ {publicUser.email || 'hello@example.com'}</p>
+				<p>
+					🔗 <a href={publicUser.website || '#'} target="_blank"
+						>{publicUser.website || 'example.com'}</a
+					>
+				</p>
+			</div> -->
 
-		<div class="stats">
-			<div><strong>{posts.length}</strong> Posts</div>
-			<div><strong>{publicUser.followers || '12.7K'}</strong> Followers</div>
-			<div><strong>{publicUser.following || '221'}</strong> Following</div>
-		</div>
+				<h3 style="margin-top: 2rem;">Posts by @{publicUser.username}</h3>
+				{#if loading}
+					<p>Loading posts…</p>
+				{:else if posts.length === 0}
+					<p>No posts yet.</p>
+				{:else}
+					{#each posts as post}
+						<div class="post">
+							<h4>{post.title}</h4>
+							<p>{post.content}</p>
+						</div>
+					{/each}
+				{/if}
+			</div>
+		{:else}
+			<p class="loading">Loading profile…</p>
+		{/if}
 
-		<div class="about">
-			<h3>About Me</h3>
-			<p>{publicUser.bio}</p>
-		</div>
-
-		<div class="contact-info">
-			<h3>Contact</h3>
-			<p>📞 {publicUser.phoneNumber || '+123 456 789 000'}</p>
-			<p>✉️ {publicUser.email || 'hello@example.com'}</p>
-			<p>🔗 <a href={publicUser.website || '#'} target="_blank">{publicUser.website || 'example.com'}</a></p>
-		</div>
-
-		<h3 style="margin-top: 2rem;">Posts by @{publicUser.username}</h3>
 		{#if loading}
-			<p>Loading posts…</p>
+			{#each [...Array(10)] as i}
+				<div class="post-card loading">
+					<div class="post-header">
+						<div class="logo-icon user-avatar skeleton-circle"></div>
+						<div class="user-info">
+							<div class="skeleton-text short"></div>
+							<div class="skeleton-text"></div>
+						</div>
+						<div class="post-menu skeleton-rect"></div>
+					</div>
+
+					<div class="post-content">
+						<div class="skeleton-text"></div>
+						<div class="skeleton-text"></div>
+						<div class="skeleton-text short"></div>
+					</div>
+
+					<div class="post-actions">
+						<div class="skeleton-text tiny"></div>
+						<div class="skeleton-text tiny"></div>
+						<div class="skeleton-text tiny"></div>
+					</div>
+				</div>
+			{/each}
 		{:else if posts.length === 0}
 			<p>No posts yet.</p>
 		{:else}
+			<!-- Post Card -->
 			{#each posts as post}
-				<div class="post">
-					<h4>{post.title}</h4>
-					<p>{post.content}</p>
+				<div class="post-card">
+					<div class="post-header">
+						<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
+						<div class="user-info">
+							<div class="user-name"><a href="/profile/{post.username}">{post.username}</a></div>
+							<!-- <div class="user-role">Product Designer, slothUI</div> -->
+						</div>
+						<div class="post-menu">⋮</div>
+					</div>
+                    
+					<div class="post-content">
+                        <div class="post-title">{post.title}</div>
+						<p>
+							{post.content}
+						</p>
+						<!-- <span class="hashtags">#amazing #great #lifetime #uiux #machinelearning</span> -->
+					</div>
+
+					<!-- <div class="post-image">
+					<img src="assets/images/postimg.png" alt="Post Image" />
+				</div> -->
+
+					<div class="post-actions">
+						<div>❤️ {post.voteCount} Likes</div>
+						<div>💬 Comments</div>
+						<div>🔁 Share</div>
+					</div>
+
+					<!-- <div class="post-comment">
+                    <img src="user-avatar.jpg" alt="User" class="comment-avatar">
+                    <input type="text" placeholder="Write your comment...">
+                    <div class="comment-icons">
+                        😊 📎 📨
+                    </div>
+                </div> -->
 				</div>
 			{/each}
 		{/if}
 	</div>
-{:else}
-	<p class="loading">Loading profile…</p>
-{/if}
 </div>
 
 <style>
-	.profile-card {
-		max-width: 600px;
-		margin: 2rem auto;
-		padding: 2rem;
-		border-radius: 1rem;
-		box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-		background: #fff;
-		font-family: 'Poppins', sans-serif;
-	}
-	.profile-header {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-	}
-	.profile-pic {
-		width: 80px;
-		height: 80px;
-		border-radius: 50%;
-		object-fit: cover;
-	}
-	.username {
-		color: #777;
-		font-size: 0.9rem;
-	}
-	.location {
-		color: #555;
-		font-size: 0.85rem;
-	}
-	.stats {
-		display: flex;
-		justify-content: space-between;
-		margin: 1.5rem 0;
-		font-size: 0.95rem;
-	}
-	.about, .contact-info {
-		margin-top: 1.5rem;
-	}
-	.about h3, .contact-info h3 {
-		margin-bottom: 0.5rem;
-	}
-	.contact-info p {
-		margin: 0.3rem 0;
-	}
-	.post {
-		margin: 1rem 0;
-		padding: 1rem;
-		border: 1px solid #eee;
-		border-radius: 0.5rem;
-		background: #fafafa;
-	}
-	.post h4 {
-		margin: 0 0 0.5rem;
-	}
-	.error {
-		color: red;
-		text-align: center;
-	}
-	.loading {
-		text-align: center;
-		color: #666;
-	}
 </style>

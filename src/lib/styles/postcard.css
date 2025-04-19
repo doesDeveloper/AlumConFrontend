@@ -2,7 +2,9 @@
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    font-family: 'Inter', sans-serif;
+    /* font-family: 'Inter', sans-serif; */
+    font-family: "Plus Jakarta Sans", sans-serif;
+
     flex: 1;
     padding-top: 0px;
 }
@@ -100,7 +102,15 @@
     color: #374151;
     margin-bottom: 12px;
 }
+.post-title{
+    font-size: 13px;
+    color: #374151;
+    margin-bottom: 12px;
+    font-weight: bold;
+    margin-left: 2px;
+    text-decoration: underline;
 
+}
 .hashtags {
     color: #6366f1;
 }
