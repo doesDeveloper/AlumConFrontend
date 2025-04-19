@@ -16,12 +16,21 @@
 	let page = 0; // zero-based page index
 	let size = 10; // items per page
 	let totalPages = 1; // will be set by API response
+	//convert recieved timestamp to readable formatted date format
+	// timeStamp is like 1745069265865
+	function formatDate(timestamp) {
+		const timestampNum = Number(timestamp);
+		const date = new Date(timestampNum);
+		console.log(date);
+		const options = { year: 'numeric', month: 'long', day: 'numeric' };
+		return date.toLocaleDateString('en-US', options);
+	}
 
 	const votePost = async (postId, voteValue) => {
 		try {
 			// loading = true;
 
-			const res = await fetch(`${API_URL}posts/${postId}/vote?voteValue=${voteValue}`, {
+			const res = await fetch(`${API_URL}posts/indiv/${postId}/vote?voteValue=${voteValue}`, {
 				method: 'POST',
 				headers: {
 					Authorization: `Bearer ${token}`
@@ -76,47 +85,47 @@
 
 	// Create a new post
 	const createPost = async (newTitle, newContent) => {
-	  if (!newTitle.trim() || !newContent.trim()) {
-		error = 'Title and content cannot be empty.';
-		return false;
-	  }
-  
-	  try {
-		loading = true;
-		const res = await fetch(`${API_URL}posts/create`, {
-		  method: 'POST',
-		  headers: {
-			Authorization: `Bearer ${token}`,
-			'Content-Type': 'application/json'
-		  },
-		  body: JSON.stringify({ title: newTitle.trim(), content: newContent.trim() })
-		});
-  
-		const payload = await res.json();
-		if (!res.ok) {
-		  // show field-level errors if any
-		  if (payload.fieldErrors) {
-			error = payload.fieldErrors.map(fe => `${fe.field}: ${fe.message}`).join('; ');
-		  } else {
-			error = payload.message || 'Failed to create post';
-		  }
-		  return false;
+		if (!newTitle.trim() || !newContent.trim()) {
+			error = 'Title and content cannot be empty.';
+			return false;
 		}
-  
-		success = 'Post created!';
-		error = '';
-		await fetchPosts();
-		return true;
-	  } catch (err) {
-		console.error(err);
-		error = err.message;
-		success = '';
-		return false;
-	  } finally {
-		loading = false;
-	  }
+
+		try {
+			loading = true;
+			const res = await fetch(`${API_URL}posts/create`, {
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ title: newTitle.trim(), content: newContent.trim() })
+			});
+
+			const payload = await res.json();
+			if (!res.ok) {
+				// show field-level errors if any
+				if (payload.fieldErrors) {
+					error = payload.fieldErrors.map((fe) => `${fe.field}: ${fe.message}`).join('; ');
+				} else {
+					error = payload.message || 'Failed to create post';
+				}
+				return false;
+			}
+
+			success = 'Post created!';
+			error = '';
+			await fetchPosts();
+			return true;
+		} catch (err) {
+			console.error(err);
+			error = err.message;
+			success = '';
+			return false;
+		} finally {
+			loading = false;
+		}
 	};
-  
+
 	onMount(async () => {
 		token = localStorage.getItem('token');
 		if (!token) {
@@ -174,7 +183,8 @@
 						<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
 						<div class="user-info">
 							<div class="user-name"><a href="/profile/{post.username}">{post.username}</a></div>
-							<!-- <div class="user-role">Product Designer, slothUI</div> -->
+
+							<div class="user-role">{formatDate(post.timeStamp)}</div>
 						</div>
 						<div class="post-menu">⋮</div>
 					</div>
@@ -192,7 +202,16 @@
 				</div> -->
 
 					<div class="post-actions">
-						<div>❤️ {post.voteCount} Likes</div>
+						<!-- <div>❤️ {post.voteCount} Likes</div> -->
+						<span class="post-upvote">
+							<button on:click={() => votePost(post.id, 1)} aria-label="Upvote"
+								><i class="fas fa-arrow-up"></i></button
+							>
+							{post.voteCount}
+							<button on:click={() => votePost(post.id, -1)} aria-label="Downvote"
+								><i class="fas fa-arrow-down"></i></button
+							>
+						</span>
 						<div>💬 Comments</div>
 						<div>🔁 Share</div>
 					</div>
@@ -224,37 +243,38 @@
 	</div>
 </div>
 
-  <NewPostModal
+<NewPostModal
 	show={showNewPostModal}
 	onClose={() => (showNewPostModal = false)}
 	onSubmit={async (t, c) => createPost(t, c)}
-  />
-  
-  <style>
+/>
+
+<style>
 	.add-post-btn {
-	  background: #007aff;
-	  color: white;
-	  padding: 0.6rem 1rem;
-	  border: none;
-	  border-radius: 0.6rem;
-	  cursor: pointer;
-	  font-weight: bold;
-	  font-size: 1rem;
-	  transition: 0.3s;
+		background: #007aff;
+		color: white;
+		padding: 0.6rem 1rem;
+		border: none;
+		border-radius: 0.6rem;
+		cursor: pointer;
+		font-weight: bold;
+		font-size: 1rem;
+		transition: 0.3s;
 	}
-	.add-post-btn:hover { background: #005ec2; }
-  
+	.add-post-btn:hover {
+		background: #005ec2;
+	}
+
 	.pagination {
-	  display: flex;
-	  gap: 0.5rem;
-	  margin: 1rem 0;
-	  flex-wrap: wrap;
+		display: flex;
+		gap: 0.5rem;
+		margin: 1rem 0;
+		flex-wrap: wrap;
 	}
 	.pagination button.selected {
-	  font-weight: bold;
-	  text-decoration: underline;
+		font-weight: bold;
+		text-decoration: underline;
 	}
-  
+
 	/* .error { color: #c00; margin: 1rem 0; } */
-  </style>
-  
+</style>

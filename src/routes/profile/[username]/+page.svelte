@@ -10,6 +10,7 @@
 	let username;
 	let token;
 	let posts = [];
+	let postsData = null;
 	let loading = false;
 
 	$: username = $page.params.username;
@@ -48,6 +49,7 @@
 			if (!res.ok) throw new Error('Failed to fetch user posts');
 			const data = await res.json();
 			posts = data.content;
+			postsData = data;
 		} catch (err) {
 			error = err.message;
 		} finally {
@@ -77,7 +79,7 @@
 					</div>
 				</div>
 				<div class="stats">
-					<div><strong>{posts.length}</strong><br /> Posts</div>
+					<div><strong>{postsData?.totalElements || '12'}</strong><br /> Posts</div>
 					<div><strong>{publicUser.followers || '12.7K'}</strong><br /> Followers</div>
 					<div><strong>{publicUser.following || '221'}</strong> <br />Following</div>
 				</div>
@@ -87,7 +89,22 @@
 					<p>{publicUser.bio}</p>
 				</div>
 			</div>
-			<div class="profile-card">
+			<div class="profile-card education-card">
+				<h3 class="card-heading">Education</h3>
+				<div class="education-details">
+					<div class="institution-name">{publicUser.collegeName}</div>
+					<div class="degree-info">Degree: {publicUser.education}</div>
+				</div>
+			</div>
+			<div class="profile-card education-card">
+				<h3 class="card-heading">Current Job</h3>
+				<div class="education-details">
+					<div class="institution-name">WHAT JOB?</div>
+					<div class="degree-info">Job Title: {publicUser.jobTitle}</div>
+					<div class="degree-info">Skills: {publicUser.skills}</div>
+				</div>
+			</div>
+			<div class="profile-card education-card">
 				<!-- <div class="contact-info">
 				<h3>Contact</h3>
 				<p>📞 {publicUser.phone || '+123 456 789 000'}</p>
@@ -99,7 +116,7 @@
 				</p>
 			</div> -->
 
-				<h3 style="font-size:larger;">Posts</h3>
+				<h3 class="card-heading">Posts</h3>
 				{#if loading}
 					{#each [...Array(10)] as i}
 						<div class="post-card loading">

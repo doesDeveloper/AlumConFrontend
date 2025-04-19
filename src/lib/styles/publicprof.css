@@ -7,6 +7,8 @@
     background: #fff;
     /* font-family: 'Poppins', sans-serif; */
     font-family: "Plus Jakarta Sans", sans-serif;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
 
 }
 
@@ -106,4 +108,31 @@
 .loading {
     text-align: center;
     color: #666;
+}
+
+.card-heading {
+    color: #333;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.education-details {
+    padding: 0.25rem 0;
+}
+
+.institution-name {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.degree-info {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 400;
 }
