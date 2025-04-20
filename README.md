@@ -1,57 +1,33 @@
-# AlumCon
+# AlumniCon – Alumni Connect Portal
 
-AlumCon is a LinkedIn-style alumni networking platform built using **Svelte.js** for the frontend.  
-This project was created for a hackathon with the goal of connecting alumni and students of institutions, enabling them to share opportunities, build connections, and grow together.
+**AlumniCon** is a web-based platform designed to foster connections among alumni of an institution. It provides core features such as messaging, following, and sharing updates, enabling users to stay engaged with their extended academic network.
 
----
+**Live Demo:**  
+[https://doesdeveloper.github.io/AlumConFrontend/](https://doesdeveloper.github.io/AlumConFrontend/)
 
-## Live Demo  
-Coming soon.
+## Features
 
----
+- User registration and login
+- Connect and follow fellow alumni
+- Real-time messaging
+- Create and view posts
+- Profile management
 
-## Screenshots  
-(Add relevant screenshots or gifs of your application here.)
+## Technology Stack
 
----
+### Backend
 
-## Tech Stack  
+- Spring Boot (REST API)
+- MongoDB (NoSQL Database)
+- Java
 
-- **Frontend:** [Svelte.js](https://svelte.dev/)
-- **Backend:** [Java Spring Boot](https://spring.io/projects/spring-boot) (in progress)
-- **Database:** [MongoDB](https://www.mongodb.com/)
+### Frontend
 
----
+- SvelteJS
+- HTML5, CSS3
 
-## Features  
+### Hosting
 
-- User registration and login  
-- Profile creation and editing  
-- Alumni connection system  
-- News feed and opportunity posts  
-- Search for users and alumni  
-- Private messaging (planned)  
-- Clean, fast, and responsive UI with Svelte  
+- GitHub Pages for frontend deployment
 
----
 
-## Getting Started
-
-### Prerequisites
-- [Node.js](https://nodejs.org/en/) installed
-- [npm](https://www.npmjs.com/) package manager
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/doesDeveloper/AlumConFrontend.git
-
-# Navigate to the project directory
-cd AlumConFrontend
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
