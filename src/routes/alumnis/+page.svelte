@@ -1,4 +1,5 @@
 <script>
+	
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import '$lib/styles/alumnicard.css';
 	import { API_URL } from '$lib/config';
