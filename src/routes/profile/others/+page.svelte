@@ -6,6 +6,7 @@
 	import '$lib/styles/publicprof.css';
 	import { goto } from '$app/navigation';
 	import { get } from 'svelte/store';
+	import PostCard from '$lib/components/PostCard.svelte';
 	import { base } from '$app/paths';
 
 	let publicUser = null;
@@ -34,7 +35,17 @@
 		await fetchUserProfile();
 		await fetchUserPosts();
 	});
+	function handlePostUpdate(event) {
+		const { postId, voteCount, ownVote } = event.detail;
 
+		// Update the post in our posts array
+		posts = posts.map((post) => {
+			if (post.id === postId) {
+				return { ...post, voteCount, ownVote };
+			}
+			return post;
+		});
+	}
 	const fetchUserProfile = async () => {
 		try {
 			const response = await fetch(`${API_URL}users/profile/${username}`, {
@@ -189,44 +200,12 @@
 					{:else}
 						<!-- Post Card -->
 						{#each posts as post}
-							<div class="post-card">
-								<div class="post-header">
-									<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
-									<div class="user-info">
-										<div class="user-name">
-											<a href="{base}/profile/others?name={post.username}">{post.username}</a>
-										</div>
-										<!-- <div class="user-role">Product Designer, slothUI</div> -->
-									</div>
-									<div class="post-menu">⋮</div>
-								</div>
-
-								<div class="post-content">
-									<div class="post-title">{post.title}</div>
-									<p>
-										{post.content}
-									</p>
-									<!-- <span class="hashtags">#amazing #great #lifetime #uiux #machinelearning</span> -->
-								</div>
-
-								<!-- <div class="post-image">
-					<img src="assets/images/postimg.png" alt="Post Image" />
-				</div> -->
-
-								<div class="post-actions">
-									<div>❤️ {post.voteCount} Likes</div>
-									<div>💬 Comments</div>
-									<div>🔁 Share</div>
-								</div>
-
-								<!-- <div class="post-comment">
-                    <img src="user-avatar.jpg" alt="User" class="comment-avatar">
-                    <input type="text" placeholder="Write your comment...">
-                    <div class="comment-icons">
-                        😊 📎 📨
-                    </div>
-                </div> -->
-							</div>
+							<PostCard
+								{post}
+								{token}
+								on:postUpdated={handlePostUpdate}
+								on:error={(e) => (error = e.detail)}
+							/>
 						{/each}
 					{/if}
 				</div>
