@@ -13,6 +13,8 @@
 	let success = null;
 	let isEditing = false;
 	let loading = false;
+	// Create a copy of user data for editing
+	let editableUser = null;
 
 	let posts = [];
 	let postsData = null;
@@ -33,6 +35,21 @@
 			loading = false;
 		}
 	};
+	
+	function startEditing() {
+		// Create a deep copy of user to edit
+		editableUser = JSON.parse(JSON.stringify(user));
+		isEditing = true;
+		// Scroll to top when starting edit mode
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+	
+	function cancelEditing() {
+		isEditing = false;
+		success = null;
+		error = null;
+	}
+	
 	async function updateProfile() {
 		success = null;
 		error = null;
@@ -43,17 +60,20 @@
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`
 				},
-				body: JSON.stringify(user)
+				body: JSON.stringify(editableUser)
 			});
 
 			if (!response.ok) throw new Error('Failed to update profile');
 			user = await response.json();
 			success = 'Profile updated successfully!';
 			isEditing = false;
+			// Scroll to top to see success message
+			window.scrollTo({ top: 0, behavior: 'smooth' });
 		} catch (err) {
 			error = err.message;
 		}
 	}
+	
 	onMount(async () => {
 		token = localStorage.getItem('token');
 		if (!token) {
@@ -87,16 +107,54 @@
 			<input type="text" placeholder="Search for friends, groups, pages" />
 			<button class="add-post-btn">Add New Post ➕</button>
 		</div>
+		
 		{#if error}
 			<p class="error">{error}</p>
 		{:else if user}
+			{#if success}
+				<div class="success-message">
+					<span class="success-icon">✓</span> {success}
+				</div>
+			{/if}
+			
+			{#if isEditing}
+				<div class="edit-mode-banner">
+					<span class="edit-icon">✏️</span> You are in edit mode. Make your changes and save when you're done.
+				</div>
+			{/if}
+			
 			<div class="profile-card">
 				<div class="profile-header">
 					<div class="logo-icon profile-pic logo-text">A</div>
 					<div>
-						<h2>{user.firstName} {user.lastName}</h2>
-						<p class="username">@{user.username}</p>
-						<p class="location">From {user.city}</p>
+						{#if !isEditing}
+							<h2>{user.firstName} {user.lastName}</h2>
+							<p class="username">@{user.username}</p>
+							<p class="location">From {user.city}</p>
+							<button class="edit-profile-btn" on:click={startEditing}>
+								<span class="edit-icon"></span> Edit Profile
+							</button>
+						{:else}
+							<div class="edit-form">
+								<h3 class="edit-section-title">Personal Information</h3>
+								<div class="form-group">
+									<label for="firstName">First Name</label>
+									<input type="text" id="firstName" bind:value={editableUser.firstName} />
+								</div>
+								<div class="form-group">
+									<label for="lastName">Last Name</label>
+									<input type="text" id="lastName" bind:value={editableUser.lastName} />
+								</div>
+								<div class="form-group">
+									<label for="username">Username <span class="non-editable">(Not Editable)</span></label>
+									<input type="text" id="username" value={user.username} disabled />
+								</div>
+								<div class="form-group">
+									<label for="city">City</label>
+									<input type="text" id="city" bind:value={editableUser.city} />
+								</div>
+							</div>
+						{/if}
 					</div>
 				</div>
 				<div class="stats">
@@ -107,16 +165,30 @@
 
 				<div class="about">
 					<h3>About Me</h3>
-					<p>{user.bio}</p>
+					{#if !isEditing}
+						<p>{user.bio}</p>
+					{:else}
+						<div class="form-group">
+							<label for="bio">Bio</label>
+							<textarea id="bio" bind:value={editableUser.bio} rows="4" placeholder="Tell us about yourself..."></textarea>
+						</div>
+					{/if}
 				</div>
 			</div>
+			
 			<div class="profile-card education-card">
 				<h3 class="card-heading">Contact</h3>
 				<div class="education-details">
 					<div class="degree-info">📞 {user.phone || '+123 456 789 000'}</div>
 					<div class="degree-info">✉️ {user.email || 'hello@example.com'}</div>
+					{#if isEditing}
+						<div class="form-note">
+							<span class="note-icon">ℹ️</span> Contact information cannot be edited from this page. Please contact support to update these details.
+						</div>
+					{/if}
 				</div>
 			</div>
+			
 			<div class="profile-card education-card">
 				<div class="achievements">
 					<h3 class="card-heading">Achievements 🏆</h3>
@@ -156,19 +228,66 @@
 
 			<div class="profile-card education-card">
 				<h3 class="card-heading">Education</h3>
-				<div class="education-details">
-					<div class="institution-name">{user.collegeName}</div>
-					<div class="degree-info">Degree: {user.education}</div>
-				</div>
+				{#if !isEditing}
+					<div class="education-details">
+						<div class="institution-name">{user.collegeName}</div>
+						<div class="degree-info">Degree: {user.education}</div>
+					</div>
+				{:else}
+					<div class="edit-form">
+						<h3 class="edit-section-title">Education Details</h3>
+						<div class="form-group">
+							<label for="collegeName">College/University</label>
+							<input type="text" id="collegeName" bind:value={editableUser.collegeName} placeholder="Enter your university name" />
+						</div>
+						<div class="form-group">
+							<label for="education">Degree</label>
+							<input type="text" id="education" bind:value={editableUser.education} placeholder="e.g. Bachelor of Science in Computer Science" />
+						</div>
+					</div>
+				{/if}
 			</div>
+			
 			<div class="profile-card education-card">
 				<h3 class="card-heading">Current Job</h3>
-				<div class="education-details">
-					<div class="institution-name">WHAT JOB?</div>
-					<div class="degree-info">Job Title: {user.jobTitle}</div>
-					<div class="degree-info">Skills: {user.skills}</div>
-				</div>
+				{#if !isEditing}
+					<div class="education-details">
+						<div class="institution-name">{user.company || 'Not specified'}</div>
+						<div class="degree-info">Job Title: {user.jobTitle || 'Not specified'}</div>
+						<div class="degree-info">Skills: {user.skills || 'Not specified'}</div>
+					</div>
+				{:else}
+					<div class="edit-form">
+						<h3 class="edit-section-title">Professional Information</h3>
+						<div class="form-group">
+							<label for="company">Company</label>
+							<input type="text" id="company" bind:value={editableUser.company} placeholder="Where do you work?" />
+						</div>
+						<div class="form-group">
+							<label for="jobTitle">Job Title</label>
+							<input type="text" id="jobTitle" bind:value={editableUser.jobTitle} placeholder="Your position or role" />
+						</div>
+						<div class="form-group">
+							<label for="skills">Skills</label>
+							<input type="text" id="skills" bind:value={editableUser.skills} placeholder="e.g. JavaScript, Project Management, Marketing" />
+						</div>
+					</div>
+				{/if}
 			</div>
+			
+			{#if isEditing}
+				<div class="save-actions-container">
+					<div class="save-actions">
+						<button class="save-btn" on:click={updateProfile}>
+							<span class="save-icon"></span> Save All Changes
+						</button>
+						<button class="cancel-btn" on:click={cancelEditing}>
+							<span class="cancel-icon">✖</span> Cancel
+						</button>
+					</div>
+				</div>
+			{/if}
+			
 			<div class="profile-card education-card">
 				<h3 class="card-heading">Posts</h3>
 				{#if loading}
@@ -207,11 +326,10 @@
 								<div class="user-info">
 									<div class="user-name">
 										<a
-											href="{base}/profile/others?name={post.username}st.username}st.username}st.username}st.username}"
+											href="{base}/profile/others?name={post.username}"
 											>{post.username}</a
 										>
 									</div>
-									<!-- <div class="user-role">Product Designer, slothUI</div> -->
 								</div>
 								<div class="post-menu">⋮</div>
 							</div>
@@ -221,26 +339,13 @@
 								<p>
 									{post.content}
 								</p>
-								<!-- <span class="hashtags">#amazing #great #lifetime #uiux #machinelearning</span> -->
 							</div>
-
-							<!-- <div class="post-image">
-					<img src="assets/images/postimg.png" alt="Post Image" />
-				</div> -->
 
 							<div class="post-actions">
 								<div>❤️ {post.voteCount} Likes</div>
 								<div>💬 Comments</div>
 								<div>🔁 Share</div>
 							</div>
-
-							<!-- <div class="post-comment">
-                    <img src="user-avatar.jpg" alt="User" class="comment-avatar">
-                    <input type="text" placeholder="Write your comment...">
-                    <div class="comment-icons">
-                        😊 📎 📨
-                    </div>
-                </div> -->
 						</div>
 					{/each}
 				{/if}
@@ -252,4 +357,199 @@
 </div>
 
 <style>
+	.edit-profile-btn {
+		margin-top: 12px;
+		padding: 8px 16px;
+		background-color: #4a76a8;
+		color: white;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.2s ease;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+	
+	.edit-profile-btn:hover {
+		background-color: #3a5b85;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+	
+	.edit-icon, .save-icon, .cancel-icon, .note-icon {
+		margin-right: 6px;
+		font-size: 16px;
+	}
+	
+	.edit-form {
+		margin: 15px 0;
+		width: 100%;
+	}
+	
+	.edit-section-title {
+		font-size: 16px;
+		color: #4a76a8;
+		margin-bottom: 12px;
+		border-bottom: 2px solid #e6e6e6;
+		padding-bottom: 8px;
+	}
+	
+	.form-group {
+		margin-bottom: 16px;
+	}
+	
+	.form-group label {
+		display: block;
+		margin-bottom: 6px;
+		font-weight: 500;
+		font-size: 14px;
+		color: #333;
+	}
+	
+	.non-editable {
+		color: #888;
+		font-size: 12px;
+		font-style: italic;
+	}
+	
+	.form-group input,
+	.form-group textarea {
+		width: 100%;
+		padding: 12px;
+		border: 1px solid #ddd;
+		border-radius: 6px;
+		font-size: 14px;
+		transition: border 0.2s ease;
+	}
+	
+	.form-group input:focus,
+	.form-group textarea:focus {
+		border-color: #4a76a8;
+		outline: none;
+		box-shadow: 0 0 0 2px rgba(74, 118, 168, 0.2);
+	}
+	
+	.form-group input:disabled {
+		background-color: #f5f5f5;
+		color: #888;
+		cursor: not-allowed;
+	}
+	
+	.save-actions-container {
+		position: sticky;
+		bottom: 20px;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		z-index: 100;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	
+	.save-actions {
+		display: flex;
+		gap: 12px;
+		background-color: white;
+		padding: 15px 20px;
+		border-radius: 12px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		border: 1px solid #e0e0e0;
+	}
+	
+	.save-btn {
+		padding: 12px 24px;
+		background-color: #4CAF50;
+		color: white;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		font-weight: 600;
+		font-size: 15px;
+		display: flex;
+		align-items: center;
+		transition: all 0.2s ease;
+	}
+	
+	.save-btn:hover {
+		background-color: #3e8e41;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+	
+	.cancel-btn {
+		padding: 12px 24px;
+		background-color: #f5f5f5;
+		color: #333;
+		border: 1px solid #ddd;
+		border-radius: 6px;
+		cursor: pointer;
+		font-weight: 500;
+		font-size: 15px;
+		display: flex;
+		align-items: center;
+		transition: all 0.2s ease;
+	}
+	
+	.cancel-btn:hover {
+		background-color: #e8e8e8;
+	}
+	
+	.form-note {
+		font-size: 14px;
+		color: #666;
+		background-color: #f9f9f9;
+		padding: 10px;
+		border-radius: 6px;
+		border-left: 3px solid #4a76a8;
+		margin-top: 12px;
+		display: flex;
+		align-items: center;
+	}
+	
+	.success-message {
+		background-color: #dff0d8;
+		color: #3c763d;
+		padding: 12px 16px;
+		border-radius: 6px;
+		margin-bottom: 20px;
+		border-left: 4px solid #4CAF50;
+		display: flex;
+		align-items: center;
+	}
+	
+	.success-icon {
+		margin-right: 8px;
+		background-color: #4CAF50;
+		color: white;
+		border-radius: 50%;
+		width: 24px;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 14px;
+	}
+	
+	.error {
+		background-color: #f2dede;
+		color: #a94442;
+		padding: 12px 16px;
+		border-radius: 6px;
+		margin-bottom: 20px;
+		border-left: 4px solid #f44336;
+	}
+	
+	.edit-mode-banner {
+		background-color: #fff3cd;
+		color: #856404;
+		padding: 12px 16px;
+		border-radius: 6px;
+		margin-bottom: 20px;
+		border-left: 4px solid #ffc107;
+		display: flex;
+		align-items: center;
+	}
 </style>
