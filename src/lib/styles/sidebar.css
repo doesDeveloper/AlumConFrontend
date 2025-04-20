@@ -203,7 +203,7 @@ body {
   flex-grow: 1;
   padding: 24px;
   margin-left: 300px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .floating-button {
@@ -229,7 +229,7 @@ body {
 
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1300px) {
   .sidebar {
     display: none;
     width: 100%;
