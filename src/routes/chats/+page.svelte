@@ -5,16 +5,18 @@
 	import { API_URL } from '$lib/config';
 	import { base } from '$app/paths';
 
-	let roomName;
 	let username;
-	let messageInput = '';
+	let roomName;
 	let roomId;
+	let reciever = '';
+	let messageInput = '';
 	let stompClient = null;
 	let chatBox;
 	let currentPage = 0;
 	const pageSize = 10;
 	let isLoadingChat = false;
 	let contactsVisible = false;
+
 	let rooms = [];
 	let picsClass = ['thor', 'stark', 'rogers', 'banner', 'danvers'];
 
@@ -117,9 +119,14 @@
 
 		connect();
 	}
+	function hideContacts() {
+		contactsVisible = false;
+		document.getElementById('contacts').classList.remove('visible');
+	}
 	function joinRoom(room) {
 		roomId = room.roomId;
 		roomName = room.roomName;
+		console.log(roomId, roomName);
 		hideContacts();
 
 		if (closeChat()) {
@@ -152,10 +159,27 @@
 		const sortedNames = [username, reciever].sort().join('=');
 		return sortedNames;
 	}
-	let reciever = '';
-	onMount(() => {
+	function createRoomIfNotExist(reciever, username) {
+		if (!rooms.find((room) => room.roomId == roomId && room.roomName == roomName)) {
+			const existingRoom = rooms.find((room) => room.roomId == roomId);
+			if (existingRoom) {
+				existingRoom.roomName = roomName;
+			} else {
+				rooms.push({ roomId, roomName, reciever });
+			}
+			localStorage.setItem('rooms', JSON.stringify(rooms));
+			rooms = [...rooms];
+		}
+	}
+	onMount(async () => {
+		let token = localStorage.getItem('token');
+		if (!token) {
+			// error = 'Please log in.';
+			window.location.href = base + '/login';
+			return;
+		}
 		rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
-        
+
 		reciever = localStorage.getItem('reciever');
 		if (!reciever) localStorage.setItem('reciever', 'abbas');
 		reciever = localStorage.getItem('reciever');
@@ -163,17 +187,24 @@
 
 		// Get Room name.
 		roomName = localStorage.getItem('roomName');
+		await fetch(`${API_URL}users/profile/${reciever}`, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				roomName = data.firstName + ' ' + data.lastName;
+				localStorage.setItem('roomName', roomName);
+			});
 
 		// messageInput = 'Heyyyy';
-		roomId = localStorage.getItem('roomId')
-			? localStorage.getItem('roomId')
-			: generateRoomId('abbas', username);
+		roomId = generateRoomId(reciever, username);
 
 		connect();
-		if (!rooms.find((room) => room.roomId == roomId)) {
-			rooms = [...rooms, { roomId: roomId, roomName: roomName }];
-			localStorage.setItem('rooms', JSON.stringify(rooms));
-		}
+		createRoomIfNotExist(reciever, username);
 	});
 </script>
 
@@ -188,51 +219,6 @@
 				<div class="ppic stark"></div>
 			</div>
 			<div class="messages" id="chat-box" bind:this={chatBox}>
-				<div class="time">Today at 11:41</div>
-				<div class="message messagesend">
-					<div class="sender">Peter Parker</div>
-					<div class="content">Hey, What's going on?</div>
-				</div>
-				<div class="message messagesend">
-					<div class="sender">Peter Parker</div>
-					<div class="content">Hey, What's going on?</div>
-				</div>
-				<div class="message messagesend">
-					<div class="sender">Peter Parker</div>
-					<div class="content">Hey, What's going on?</div>
-				</div>
-				<div class="message messagesend">
-					<div class="sender">Peter Parker</div>
-					<div class="content">Hey, What's going on?</div>
-				</div>
-				<div class="message messagesend">
-					<div class="sender">Peter Parker</div>
-					<div class="content">Hey, What's going on?</div>
-				</div>
-				<div class="message messagesend">
-					<div class="sender">Peter Parker</div>
-					<div class="content">Hey, What's going on?</div>
-				</div>
-				<div class="message messagerec">
-					<div class="sender">Tony Stark</div>
-					<div class="content">Nothing much why even bother messaging?</div>
-				</div>
-				<div class="message messagesend">
-					<div class="sender">Peter Parker</div>
-					<div class="content">
-						Just wanted to say that the person reading this chat has nothing else to do!
-					</div>
-				</div>
-				<div class="message messagesend">
-					<div class="sender">Peter Parker</div>
-					<div class="content">Uh, what is this guy's problem</div>
-				</div>
-				<div class="message messagerec">
-					<div class="sender">Steve Rogers</div>
-					<div class="content">
-						I guess he is just not in the right place he should join his room.
-					</div>
-				</div>
 			</div>
 			<div class="input">
 				<input
@@ -247,11 +233,13 @@
 		</div>
 	</div>
 	<div class="contacts" id="contacts">
-		<h2>Rooms</h2>
-		<div class="contact" id="addRoom">
-			<div class="pic stark"></div>
-			<div class="name">Add Room</div>
-			<div class="message">Room Id: xxxx</div>
-		</div>
+		<h2 class="text-2xl font-bold">Chats</h2>
+		{#each rooms as room}
+			<div class="contact" on:click={joinRoom(room)}>
+				<div class="pic stark"></div>
+				<div class="name">{room.roomName}</div>
+				<div class="message">@{room.reciever}</div>
+			</div>
+		{/each}
 	</div>
 </div>

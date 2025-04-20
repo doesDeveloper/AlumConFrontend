@@ -47,6 +47,9 @@
 			>
 		</li>
 		<li>
+			<a href="{base}/chats" on:click={closeSidebar}><span class="icon">🗨️</span> Chats </a>
+		</li>
+		<li>
 			<a href="{base}/" on:click={closeSidebar}><span class="icon">❓</span> Help & Support</a>
 		</li>
 	</ul>
