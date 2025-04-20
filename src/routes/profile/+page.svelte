@@ -37,13 +37,14 @@
 			loading = false;
 		}
 	};
-
+	
+	let centerContainer;
 	function startEditing() {
 		// Create a deep copy of user to edit
 		editableUser = JSON.parse(JSON.stringify(user));
 		isEditing = true;
 		// Scroll to top when starting edit mode
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+		centerContainer.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	function cancelEditing() {
@@ -70,7 +71,7 @@
 			success = 'Profile updated successfully!';
 			isEditing = false;
 			// Scroll to top to see success message
-			window.scrollTo({ top: 0, behavior: 'smooth' });
+			centerContainer.scrollTo({ top: 0, behavior: 'smooth' });
 		} catch (err) {
 			error = err.message;
 		}
@@ -118,7 +119,7 @@
 	<Sidebar />
 
 	<div class="main-content">
-		<div class="center-container">
+		<div class="center-container" bind:this={centerContainer}>
 			{#if error}
 				<p class="error">{error}</p>
 			{:else if user}

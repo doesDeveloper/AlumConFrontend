@@ -4,7 +4,8 @@
     padding: 5px;
     /* font-family: 'Inter', sans-serif; */
     font-family: "Plus Jakarta Sans", sans-serif;
-
+    height: 100vh;
+    overflow: auto;
 }
 
 

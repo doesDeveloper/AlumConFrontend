@@ -28,13 +28,20 @@
 </script>
 
 <div class="sidebar">
+	<div
+		class="close-btn"
+		style="position: absolute; top: 10px; right: 10px; cursor: pointer; padding: 5px; font-size: 20px;"
+		on:click={closeSidebar}
+	>
+		<i class="fas fa-times"></i>
+	</div>
 	<div class="logo">
 		<div class="logo-icon graduation-logo"></div>
 		<div class="tassel"></div>
 		<span>AlumCon</span>
 	</div>
 	<div class="search-box">
-		<input type="text" placeholder="Search..." />
+		<input type="text" placeholder="Visual Search Bar..." />
 	</div>
 	<ul class="menu">
 		<li>

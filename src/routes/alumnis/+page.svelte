@@ -79,11 +79,12 @@
 		fetchUsers();
 	}
 
+	let centerContainer;
 	function changePage(newPage) {
 		if (newPage < 0 || newPage >= totalPages) return;
 		page = newPage;
 		// Scroll to top when changing pages
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+		centerContainer.scrollTo(0, 0);
 		fetchUsers();
 	}
 
@@ -99,7 +100,7 @@
 <div class="layout">
 	<Sidebar />
 	<div class="main-content">
-		<div class="center-container">
+		<div class="center-container" bind:this={centerContainer}>
 			<div class="top-bar">
 				<div class="search-filters {expanded ? 'expanded' : ''}">
 					<div class="search-container">

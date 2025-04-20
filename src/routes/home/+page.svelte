@@ -39,9 +39,11 @@
 		}
 	}
 
+	let centerContainer;
 	function changePage(newPage) {
 		if (newPage < 0 || newPage >= totalPages) return;
 		page = newPage;
+		centerContainer.scrollTo(0, 0);
 		fetchPosts();
 	}
 
@@ -120,10 +122,10 @@
 <div class="layout">
 	<Sidebar />
 	<div class="main-content">
-		<div class="center-container">
+		<div class="center-container" bind:this={centerContainer}>
 			<!-- Top Search Bar -->
 			<div class="top-bar">
-				<input type="text" placeholder="Search for friends, groups, pages" />
+				<input type="text" placeholder="Use the search box in alumni section." />
 				<button class="add-post-btn" on:click={() => (showNewPostModal = true)}>Post ➕</button>
 			</div>
 			<h2 class="feed-heading">📢 Community Feed</h2>

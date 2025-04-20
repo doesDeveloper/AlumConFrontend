@@ -136,7 +136,7 @@
 
     .contacts {
         position: absolute;
-        top: 3%;
+        top: 0%;
         transform: translate(0rem, 110%);
         z-index: 4;
         width: 100%;
@@ -457,17 +457,19 @@
     display: flex;
     justify-content: center;
     flex: 1;
-    padding-top: 0px;
     flex-grow: 1;
     padding: 24px;
     margin-left: 300px;
     margin-right: 20rem;
+    padding-top: 0px;
 }
 
 @media only screen and (max-width: 1300px) {
     .chat-main-content {
         margin-left: 0px;
         margin-right: 0px;
+        padding-top: 0px;
+        height: 98vh;
     }
 }
 
