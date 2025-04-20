@@ -5,6 +5,7 @@
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import '$lib/styles/publicprof.css';
 	import { goto } from '$app/navigation';
+	import { get } from 'svelte/store';
 
 	let publicUser = null;
 	let error = null;
@@ -16,8 +17,9 @@
 
 	// $: username = $page.params.username;
 
-	$: nameParam = $page.url.searchParams.get('name');
 	onMount(async () => {
+		const currentPage = get(page);
+		const nameParam = currentPage.url.searchParams.get('name');
 		username = nameParam;
 		if (!username) {
 			goto('/profile/');
