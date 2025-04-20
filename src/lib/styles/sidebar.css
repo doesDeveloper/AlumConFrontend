@@ -183,3 +183,64 @@ body {
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   /* border-radius: 12px; */
 }
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 0px;
+  flex-grow: 1;
+  padding: 24px;
+  margin-left: 300px;
+  overflow-y: scroll;
+}
+
+.floating-button {
+  display: none;
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  width: 40px;
+  height: 40px;
+  background: #6b5bff;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
+  transition: all 0.3s ease;
+}
+
+.sidebar.visible {
+  display: flex;
+
+}
+
+@media only screen and (max-width: 900px) {
+  .sidebar {
+    display: none;
+    width: 100%;
+    z-index: 11;
+  }
+
+  .main-content {
+    margin-left: 0px;
+  }
+
+  .floating-button {
+    display: flex;
+  }
+}

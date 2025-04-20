@@ -69,6 +69,7 @@
 
 <div class="layout">
 	<Sidebar />
+	<div class="main-content">
 	<div class="center-container">
 		<div class="top-bar">
 			<div class="search-filters {expanded ? 'expanded' : ''}">
@@ -162,6 +163,7 @@
 				</div>
 			{/each}
 		{/if}
+	</div>
 	</div>
 </div>
 

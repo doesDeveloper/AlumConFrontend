@@ -5,9 +5,8 @@
     /* font-family: 'Inter', sans-serif; */
     font-family: "Plus Jakarta Sans", sans-serif;
 
-    flex: 1;
-    padding-top: 0px;
 }
+
 
 /* .top-bar {
   display: flex;
@@ -32,9 +31,42 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     /* Light subtle shadow */
     border-radius: 1rem;
+    width: 100%;
+    max-width: inherit;
+    margin: 0 auto;
 }
 
 
+.top-bar {
+    position: fixed;
+    /* Fixed at the top of the page */
+    top: 0;
+    left: 50%;
+    /* This will center it horizontally */
+    transform: translateX(-25.5%);
+    /* Centers the top-bar exactly */
+    z-index: 10;
+    width: 100%;
+    /* Make it span the full width */
+    max-width: inherit;
+    /* Limit width for large screens, adjust as needed */
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(3px);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+
+}
+
+
+@media only screen and (max-width: 900px) {
+    .top-bar{
+        transform: translate(-50% );
+    }
+}
 
 .top-bar input[type="text"] {
     flex: 1;

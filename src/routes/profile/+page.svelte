@@ -82,6 +82,7 @@
 <div class="layout">
 	<Sidebar />
 
+	<div class="main-content">
 	<div class="center-container">
 		<div class="top-bar">
 			<input type="text" placeholder="Search for friends, groups, pages" />
@@ -249,6 +250,7 @@
 			<p class="loading">Loading profile…</p>
 		{/if}
 	</div>
+</div>
 </div>
 
 <style>

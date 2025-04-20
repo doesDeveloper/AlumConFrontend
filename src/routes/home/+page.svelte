@@ -144,108 +144,109 @@
 
 <div class="layout">
 	<Sidebar />
+	<div class="main-content">
+		<div class="center-container">
+			<!-- Top Search Bar -->
+			<div class="top-bar">
+				<input type="text" placeholder="Search for friends, groups, pages" />
+				<button class="add-post-btn" on:click={() => (showNewPostModal = true)}>Post ➕</button>
+			</div>
 
-	<div class="center-container">
-		<!-- Top Search Bar -->
-		<div class="top-bar">
-			<input type="text" placeholder="Search for friends, groups, pages" />
-			<button class="add-post-btn" on:click={() => (showNewPostModal = true)}>Post ➕</button>
-		</div>
-
-		{#if loading}
-			{#each [...Array(10)] as i}
-				<div class="post-card loading">
-					<div class="post-header">
-						<div class="logo-icon user-avatar skeleton-circle"></div>
-						<div class="user-info">
-							<div class="skeleton-text short"></div>
-							<div class="skeleton-text"></div>
-						</div>
-						<div class="post-menu skeleton-rect"></div>
-					</div>
-
-					<div class="post-content">
-						<div class="skeleton-text"></div>
-						<div class="skeleton-text"></div>
-						<div class="skeleton-text short"></div>
-					</div>
-
-					<div class="post-actions">
-						<div class="skeleton-text tiny"></div>
-						<div class="skeleton-text tiny"></div>
-						<div class="skeleton-text tiny"></div>
-					</div>
-				</div>
-			{/each}
-		{:else if posts.length === 0}
-			<p>No posts yet.</p>
-		{:else}
-			<!-- Post Card -->
-			{#each posts as post}
-				<div class="post-card">
-					<div class="post-header">
-						<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
-						<div class="user-info">
-							<div class="user-name">
-								<a href="{base}/profile/others?name={post.username}">{post.username}</a>
+			{#if loading}
+				{#each [...Array(10)] as i}
+					<div class="post-card loading">
+						<div class="post-header">
+							<div class="logo-icon user-avatar skeleton-circle"></div>
+							<div class="user-info">
+								<div class="skeleton-text short"></div>
+								<div class="skeleton-text"></div>
 							</div>
-
-							<div class="user-role">{formatDate(post.timeStamp)}</div>
+							<div class="post-menu skeleton-rect"></div>
 						</div>
-						<div class="post-menu">⋮</div>
-					</div>
 
-					<div class="post-content">
-						<div class="post-title">{post.title}</div>
-						<p>
-							{post.content}
-						</p>
-						<!-- <span class="hashtags">#amazing #great #lifetime #uiux #machinelearning</span> -->
-					</div>
+						<div class="post-content">
+							<div class="skeleton-text"></div>
+							<div class="skeleton-text"></div>
+							<div class="skeleton-text short"></div>
+						</div>
 
-					<!-- <div class="post-image">
+						<div class="post-actions">
+							<div class="skeleton-text tiny"></div>
+							<div class="skeleton-text tiny"></div>
+							<div class="skeleton-text tiny"></div>
+						</div>
+					</div>
+				{/each}
+			{:else if posts.length === 0}
+				<p>No posts yet.</p>
+			{:else}
+				<!-- Post Card -->
+				{#each posts as post}
+					<div class="post-card">
+						<div class="post-header">
+							<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
+							<div class="user-info">
+								<div class="user-name">
+									<a href="{base}/profile/others?name={post.username}">{post.username}</a>
+								</div>
+
+								<div class="user-role">{formatDate(post.timeStamp)}</div>
+							</div>
+							<div class="post-menu">⋮</div>
+						</div>
+
+						<div class="post-content">
+							<div class="post-title">{post.title}</div>
+							<p>
+								{post.content}
+							</p>
+							<!-- <span class="hashtags">#amazing #great #lifetime #uiux #machinelearning</span> -->
+						</div>
+
+						<!-- <div class="post-image">
 					<img src="assets/images/postimg.png" alt="Post Image" />
 				</div> -->
 
-					<div class="post-actions">
-						<!-- <div>❤️ {post.voteCount} Likes</div> -->
-						<span class="post-upvote">
-							<button on:click={() => votePost(post.id, 1)} aria-label="Upvote"
-								><i class="fas fa-arrow-up"></i></button
-							>
-							{post.voteCount}
-							<button on:click={() => votePost(post.id, -1)} aria-label="Downvote"
-								><i class="fas fa-arrow-down"></i></button
-							>
-						</span>
-						<div>💬 Comments</div>
-						<div>🔁 Share</div>
-					</div>
+						<div class="post-actions">
+							<!-- <div>❤️ {post.voteCount} Likes</div> -->
+							<span class="post-upvote">
+								<button on:click={() => votePost(post.id, 1)} aria-label="Upvote"
+									><i class="fas fa-arrow-up"></i></button
+								>
+								{post.voteCount}
+								<button on:click={() => votePost(post.id, -1)} aria-label="Downvote"
+									><i class="fas fa-arrow-down"></i></button
+								>
+							</span>
+							<div>💬 Comments</div>
+							<div>🔁 Share</div>
+						</div>
 
-					<!-- <div class="post-comment">
+						<!-- <div class="post-comment">
                     <img src="user-avatar.jpg" alt="User" class="comment-avatar">
                     <input type="text" placeholder="Write your comment...">
                     <div class="comment-icons">
                         😊 📎 📨
                     </div>
                 </div> -->
-				</div>
-			{/each}
-			<!-- Pagination Controls -->
-			<div class="pagination">
-				<button on:click={() => changePage(page - 1)} disabled={page === 0}> Previous </button>
-
-				{#each Array(totalPages) as _, i}
-					<button class:selected={i === page} on:click={() => changePage(i)}>
-						{i + 1}
-					</button>
+					</div>
 				{/each}
+				<!-- Pagination Controls -->
+				<div class="pagination">
+					<button on:click={() => changePage(page - 1)} disabled={page === 0}> Previous </button>
 
-				<button on:click={() => changePage(page + 1)} disabled={page >= totalPages - 1}>
-					Next
-				</button>
-			</div>
-		{/if}
+					{#each Array(totalPages) as _, i}
+						<button class:selected={i === page} on:click={() => changePage(i)}>
+							{i + 1}
+						</button>
+					{/each}
+
+					<button on:click={() => changePage(page + 1)} disabled={page >= totalPages - 1}>
+						Next
+					</button>
+				</div>
+			{/if}
+		</div>
 	</div>
 </div>
 

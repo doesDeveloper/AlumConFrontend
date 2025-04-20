@@ -16,6 +16,15 @@
 			window.location.href = base + '/login';
 		}
 	});
+	function displaySidebar() {
+		// add visible class to sidebar using svelte
+		const sidebar = document.querySelector('.sidebar');
+		sidebar.classList.add('visible');
+	}
+	function closeSidebar() {
+		const sidebar = document.querySelector('.sidebar');
+		sidebar.classList.remove('visible');
+	}
 </script>
 
 <div class="sidebar">
@@ -27,15 +36,19 @@
 		<input type="text" placeholder="Search..." />
 	</div>
 	<ul class="menu">
-		<li><a href="{base}/home"><span class="icon">🏠</span> Feed <span class="badge">10</span></a></li>
-		<li><a href="{base}/"><span class="icon">📋</span> Stories</a></li>
 		<li>
-			<a href="{base}/alumnis"><span class="icon">👥</span> Alumnis <span class="badge">2</span></a>
+			<a href="{base}/home" on:click={closeSidebar}
+				><span class="icon">🏠</span> Feed <span class="badge">10</span></a
+			>
 		</li>
-		<li><a href="{base}/"><span class="icon">🧊</span> APIs</a></li>
-		<li><a href="{base}/"><span class="icon">💳</span> Subscription</a></li>
-		<li><a href="{base}/"><span class="icon">⚙️</span> Settings</a></li>
-		<li><a href="{base}/"><span class="icon">❓</span> Help & Support</a></li>
+		<li>
+			<a href="{base}/alumnis" on:click={closeSidebar}
+				><span class="icon">👥</span> Alumnis <span class="badge">2</span></a
+			>
+		</li>
+		<li>
+			<a href="{base}/" on:click={closeSidebar}><span class="icon">❓</span> Help & Support</a>
+		</li>
 	</ul>
 	<a href="{base}/profile">
 		<div class="user-profile">
@@ -47,4 +60,7 @@
 			<div class="logout-icon"><i class="fas fa-angle-right"></i></div>
 		</div>
 	</a>
+</div>
+<div class="floating-button" on:click={displaySidebar}>
+	<i class="fas fa-bars" style="color: white; font-size: medium;"></i>
 </div>
