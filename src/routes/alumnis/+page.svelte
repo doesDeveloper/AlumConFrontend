@@ -6,6 +6,8 @@
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 
+    import UserAvatar from '$lib/components/UserAvatar.svelte';
+
 	// User data variables
 	let users = null;
 	let error = null;
@@ -172,7 +174,8 @@
 			{:else if users && users.content && users.content.length > 0}
 				{#each users.content as user (user.username)}
 					<div class="person-card">
-						<div class="logo-icon">{user.username.charAt(0).toUpperCase()}</div>
+						<!-- <div class="logo-icon">{user.username.charAt(0).toUpperCase()}</div> -->
+						<UserAvatar username={user.username} size="40px" />
 						<div class="info">
 							<div class="name">
 								<a href="{base}/profile/others?name={user.username}"

@@ -1,7 +1,7 @@
 <script>
     import { API_URL } from '$lib/config';
     import { base } from '$app/paths';
-
+    import UserAvatar from '$lib/components/UserAvatar.svelte';
     // Component props
     export let post;
     export let token;
@@ -54,7 +54,8 @@
 
 <div class="post-card">
     <div class="post-header">
-        <div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
+        <!-- <div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div> -->
+        <UserAvatar username={post.username} size="40px" />
         <div class="user-info">
             <div class="user-name">
                 <a href="{base}/profile/others?name={post.username}">{post.username}</a>
