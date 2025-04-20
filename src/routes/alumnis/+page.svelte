@@ -51,7 +51,7 @@
 			params.append('page', page.toString());
 			params.append('size', size.toString());
 
-			const endpoint = `${API_URL}users/search?${params.toString()}`;
+			const endpoint = `${API_URL}users/searchalumnis?${params.toString()}`;
 			const response = await fetch(endpoint, {
 				method: 'GET',
 				headers: {

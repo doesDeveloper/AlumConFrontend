@@ -15,7 +15,7 @@
 	let stompClient = null;
 	let chatBox;
 	let currentPage = 0;
-	const pageSize = 10;
+	const pageSize = 30;
 	let isLoadingChat = false;
 	let contactsVisible = false;
 

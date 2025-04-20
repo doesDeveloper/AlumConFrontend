@@ -167,7 +167,8 @@ body {
 .user-profile {
   display: flex;
   align-items: center;
-  margin-top: auto;
+  /* margin-top: auto; */
+  margin-bottom: 30px;
   padding-top: 16px;
   padding-bottom: 16px;
   border-top: 1px solid #e2e8f0;
@@ -229,7 +230,19 @@ body {
 
 }
 
+	.close-btn {
+		display: none;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		cursor: pointer;
+		padding: 5px;
+		font-size: 20px;
+	}
 @media only screen and (max-width: 1300px) {
+  .close-btn {
+    display: block;
+  }
   .sidebar {
     display: none;
     width: 100%;

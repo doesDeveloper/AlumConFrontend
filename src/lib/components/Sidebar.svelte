@@ -2,7 +2,7 @@
 	import '$lib/styles/sidebar.css';
 	import '$lib/styles/postcard.css';
 	import { base } from '$app/paths';
-    import UserAvatar from '$lib/components/UserAvatar.svelte';
+	import UserAvatar from '$lib/components/UserAvatar.svelte';
 
 	import { onMount } from 'svelte';
 	let username = '';
@@ -29,11 +29,7 @@
 </script>
 
 <div class="sidebar">
-	<div
-		class="close-btn"
-		style="position: absolute; top: 10px; right: 10px; cursor: pointer; padding: 5px; font-size: 20px;"
-		on:click={closeSidebar}
-	>
+	<div class="close-btn" style="" on:click={closeSidebar}>
 		<i class="fas fa-times"></i>
 	</div>
 	<div class="logo">
@@ -64,7 +60,7 @@
 	</ul>
 	<a href="{base}/profile">
 		<div class="user-profile">
-			<UserAvatar username={username} size="60px" />
+			<UserAvatar {username} size="60px" />
 			<div class="user-info">
 				<div class="name">{fullName}</div>
 				<div class="role">@{username}</div>
