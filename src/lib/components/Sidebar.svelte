@@ -29,7 +29,8 @@
 
 <div class="sidebar">
 	<div class="logo">
-		<div class="logo-icon">A</div>
+		<div class="logo-icon graduation-logo"></div>
+		<div class="tassel"></div>
 		<span>AlumCon</span>
 	</div>
 	<div class="search-box">
@@ -64,3 +65,67 @@
 <div class="floating-button" on:click={displaySidebar}>
 	<i class="fas fa-bars" style="color: white; font-size: medium;"></i>
 </div>
+
+<style>
+	.logo-icon.graduation-logo {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		background: linear-gradient(to bottom, #f4e9e2 60%, #000 60%);
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* Head */
+	.logo-icon.graduation-logo::before {
+		content: '';
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		background: #fca;
+		border-radius: 50%;
+		top: 15px;
+		left: 15px;
+		z-index: 2;
+	}
+
+	/* Cap (mortarboard) */
+	.logo-icon.graduation-logo::after {
+		content: '';
+		position: absolute;
+		width: 26px;
+		height: 26px;
+		background: #222;
+		transform: rotate(45deg);
+		top: 0;
+		left: 12px;
+		z-index: 3;
+		box-shadow: 1px 1px 0 #333;
+	}
+
+	/* Tassel */
+	.logo-icon.graduation-logo .tassel {
+		position: absolute;
+		width: 2px;
+		height: 15px;
+		background: #e36b5b;
+		top: 12px;
+		left: 24px;
+		transform: rotate(10deg);
+		z-index: 4;
+	}
+
+	.logo-icon.graduation-logo .tassel::after {
+		content: '';
+		position: absolute;
+		width: 6px;
+		height: 6px;
+		background: #e36b5b;
+		border-radius: 50%;
+		bottom: -4px;
+		left: -2px;
+	}
+</style>
