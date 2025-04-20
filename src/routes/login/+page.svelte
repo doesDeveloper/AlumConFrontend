@@ -318,6 +318,15 @@
 											bind:value={registerData.collegeName}
 											required
 										/>
+										<div class="field">
+											<label for="university">Alumni Of*</label>
+											<select id="university" bind:value={registerData.university} required>
+												<option value="" disabled selected>Select a university</option>
+												<option value="Jamia Millia Islamia">Jamia Millia Islamia</option>
+												<option value="Aligarh Muslim University">Aligarh Muslim University</option>
+												<option value="Delhi University">Delhi University</option>
+											</select>
+										</div>
 									</div>
 									<div class="field">
 										<label for="branch">Branch*</label>
