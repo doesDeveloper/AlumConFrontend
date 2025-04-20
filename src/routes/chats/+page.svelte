@@ -4,8 +4,10 @@
 	import { onMount } from 'svelte';
 	import { API_URL } from '$lib/config';
 	import { base } from '$app/paths';
+	import { get } from 'svelte/store';
 
 	let username;
+	let token;
 	let roomName;
 	let roomId;
 	let reciever = '';
@@ -62,6 +64,7 @@
 			});
 	}
 	function sendMessage() {
+		createRoomIfNotExist(reciever, username);
 		if (messageInput) {
 			var message = {
 				sender: username,
@@ -123,15 +126,21 @@
 		contactsVisible = false;
 		document.getElementById('contacts').classList.remove('visible');
 	}
+	function showContacts() {
+		contactsVisible = true;
+		document.getElementById('contacts').classList.add('visible');
+	}
 	function joinRoom(room) {
 		roomId = room.roomId;
 		roomName = room.roomName;
-		console.log(roomId, roomName);
+		reciever = room.reciever;
+		console.log(roomId, roomName, reciever);
 		hideContacts();
 
 		if (closeChat()) {
 			localStorage.setItem('roomId', roomId);
 			localStorage.setItem('roomName', roomName);
+			localStorage.setItem('reciever', reciever);
 			connect();
 		}
 	}
@@ -159,35 +168,35 @@
 		const sortedNames = [username, reciever].sort().join('=');
 		return sortedNames;
 	}
-	function createRoomIfNotExist(reciever, username) {
+	async function createRoomIfNotExist(reciever, username) {
 		if (!rooms.find((room) => room.roomId == roomId && room.roomName == roomName)) {
+			const recievers = await fetch(`${API_URL}users/me/chats`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/text',
+					Authorization: `Bearer ${token}`
+				},
+				body: reciever
+			}).then(async (res) => {
+				const data = await res.json().then((data) => {
+					console.log(data);
+					console.log(
+						JSON.stringify(data.sort()) !==
+							JSON.stringify(rooms.map((room) => room.reciever).sort())
+					);
+				});
+			});
 			const existingRoom = rooms.find((room) => room.roomId == roomId);
 			if (existingRoom) {
 				existingRoom.roomName = roomName;
 			} else {
-				rooms.push({ roomId, roomName, reciever });
+				rooms = [...rooms, { roomId, roomName, reciever }];
 			}
 			localStorage.setItem('rooms', JSON.stringify(rooms));
-			rooms = [...rooms];
 		}
 	}
-	onMount(async () => {
-		let token = localStorage.getItem('token');
-		if (!token) {
-			// error = 'Please log in.';
-			window.location.href = base + '/login';
-			return;
-		}
-		rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
-
-		reciever = localStorage.getItem('reciever');
-		if (!reciever) localStorage.setItem('reciever', 'abbas');
-		reciever = localStorage.getItem('reciever');
-		username = JSON.parse(localStorage.getItem('user')).username;
-
-		// Get Room name.
-		roomName = localStorage.getItem('roomName');
-		await fetch(`${API_URL}users/profile/${reciever}`, {
+	async function getRoomName(reciever, token) {
+		return fetch(`${API_URL}users/profile/${reciever}`, {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${token}`
@@ -195,16 +204,56 @@
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
-				roomName = data.firstName + ' ' + data.lastName;
-				localStorage.setItem('roomName', roomName);
+				return data.firstName + ' ' + data.lastName;
 			});
+	}
+	onMount(async () => {
+		token = localStorage.getItem('token');
+		if (!token) {
+			window.location.href = base + '/login';
+			return;
+		}
+		username = JSON.parse(localStorage.getItem('user')).username;
+		rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
+		let remoteRecievers = await fetch(`${API_URL}users/me/chats`, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		}).then((res) => res.json());
 
-		// messageInput = 'Heyyyy';
+		if (
+			JSON.stringify(remoteRecievers.sort()) !==
+			JSON.stringify(rooms.map((room) => room.reciever).sort())
+		) {
+			rooms = [];
+
+			await Promise.all(
+				remoteRecievers.map(async (reciever) => {
+					if (!rooms.find((room) => room.reciever == reciever)) {
+						rooms.push({
+							roomId: generateRoomId(reciever, username),
+							roomName: await getRoomName(reciever, token),
+							reciever
+						});
+					}
+				})
+			).then(() => {
+				rooms = rooms;
+			});
+		}
+
+		localStorage.setItem('rooms', JSON.stringify(rooms));
+
+		reciever = localStorage.getItem('reciever');
+		if (!reciever) localStorage.setItem('reciever', 'abbas');
+		reciever = localStorage.getItem('reciever');
+
+		// Get Room name.
+		roomName = await getRoomName(reciever, token);
 		roomId = generateRoomId(reciever, username);
 
 		connect();
-		createRoomIfNotExist(reciever, username);
 	});
 </script>
 
@@ -213,7 +262,10 @@
 	<div class="chat-main-content">
 		<div class="chat chat-box">
 			<div class="contact bar">
-				<i class="contactstoggle fas fa-bars fa-2x"></i>
+				<!-- // left arrow -->
+				{#if !contactsVisible}
+					<i class="contactstoggle fas fa-arrow-left fa-2x" on:click={showContacts}></i>
+				{/if}
 				<div class="name" id="roomName">{roomName}</div>
 				<div class="description" id="roomId">Username: @{reciever}</div>
 				<div class="ppic stark"></div>

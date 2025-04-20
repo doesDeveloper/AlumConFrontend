@@ -6,6 +6,7 @@
 	import '$lib/styles/publicprof.css';
 	import { base } from '$app/paths';
 	import PostCard from '$lib/components/PostCard.svelte';
+	import { goto } from '$app/navigation';
 
 	// Example usage
 	const url = API_URL;
@@ -74,7 +75,20 @@
 			error = err.message;
 		}
 	}
+	function handleLogout() {
+		goto(base + '/logout');
+	}
+	function handlePostUpdate(event) {
+		const { postId, voteCount, ownVote } = event.detail;
 
+		// Update the post in our posts array
+		posts = posts.map((post) => {
+			if (post.id === postId) {
+				return { ...post, voteCount, ownVote };
+			}
+			return post;
+		});
+	}
 	onMount(async () => {
 		token = localStorage.getItem('token');
 		if (!token) {
@@ -157,6 +171,9 @@
 								</div>
 							{/if}
 						</div>
+						<button class="logout-btn" on:click={handleLogout}>
+							<i class="fa fa-sign-out-alt"></i> Logout
+						</button>
 					</div>
 					<div class="stats">
 						<div><strong>{postsData?.totalElements || '0'}</strong><br /> Posts</div>
@@ -566,5 +583,19 @@
 		border-left: 4px solid #ffc107;
 		display: flex;
 		align-items: center;
+	}
+	.logout-btn {
+		padding: 0.5rem 1rem;
+		background-color: #6b5bff;
+		color: #fff;
+		border-radius: 0.5rem;
+		cursor: pointer;
+		margin-left: auto;
+		transition: all 0.2s ease;
+	}
+	.logout-btn:hover {
+		background-color: #5840ff;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(107, 91, 255, 0.4);
 	}
 </style>
