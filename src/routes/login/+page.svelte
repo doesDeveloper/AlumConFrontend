@@ -102,7 +102,7 @@
 			const user = await userRes.json();
 			localStorage.setItem('user', JSON.stringify(user));
 			successMessage = 'Login successful! Redirecting...';
-			setTimeout(() => (window.location.href = base + '/profile'), 1500);
+			setTimeout(() => (window.location.href = base + '/home'), 1500);
 		} catch (err) {
 			errorMessage = err.message || 'Something went wrong. Please try again.';
 		} finally {
