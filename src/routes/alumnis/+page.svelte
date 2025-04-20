@@ -1,5 +1,6 @@
 <script>
-	
+	import { base } from '$app/paths';
+
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import '$lib/styles/alumnicard.css';
 	import { API_URL } from '$lib/config';
@@ -17,7 +18,7 @@
 		token = localStorage.getItem('token');
 		if (!token) {
 			error = 'You are not logged in.';
-			window.location.href = '/login';
+			window.location.href = base + '/login';
 			return;
 		}
 		fetchUsers(); // load initial feed
@@ -136,12 +137,14 @@
 					<div class="logo-icon">{user.username.charAt(0).toUpperCase()}</div>
 					<div class="info">
 						<div class="name">
-							<a href="/profile/others?name={user.username}">{user.firstName} {user.lastName}</a>
+							<a href="{base}/profile/others?name={user.username}"
+								>{user.firstName} {user.lastName}</a
+							>
 						</div>
 						<div class="title">{user.jobTitle} from {user.city}</div>
 						<div class="bio">{user.bio}</div>
 					</div>
-					<a href="/profile/others?name={user.username}"
+					<a href="{base}/profile/others?name={user.username}"
 						><button class="connect-btn">Profile</button></a
 					>
 				</div>

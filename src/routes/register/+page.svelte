@@ -60,7 +60,7 @@
       }
 
       alert('Registration successful! Please login.');
-      window.location.href = '/login';
+      window.location.href = base + '/login';
     } catch (error) {
       errorMessage = error.message || 'Something went wrong. Please try again.';
     } finally {

@@ -6,6 +6,7 @@
 	import '$lib/styles/publicprof.css';
 	import { goto } from '$app/navigation';
 	import { get } from 'svelte/store';
+	import { base } from '$app/paths';
 
 	let publicUser = null;
 	let error = null;
@@ -15,18 +16,17 @@
 	let postsData = null;
 	let loading = false;
 
-
 	onMount(async () => {
 		const currentPage = get(page);
 		const nameParam = currentPage.url.searchParams.get('name');
 		username = nameParam;
 		if (!username) {
-			goto('/profile/');
+			goto(base +'/profile/');
 		}
 		token = localStorage.getItem('token');
 		if (!token) {
 			error = 'You are not logged in.';
-			window.location.href = '/login';
+			window.location.href = base + '/login';
 			return;
 		}
 
@@ -196,7 +196,7 @@
 								<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
 								<div class="user-info">
 									<div class="user-name">
-										<a href="/profile/others?name={post.username}">{post.username}</a>
+										<a href="{base}/profile/others?name={post.username}">{post.username}</a>
 									</div>
 									<!-- <div class="user-role">Product Designer, slothUI</div> -->
 								</div>

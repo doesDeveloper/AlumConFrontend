@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import '$lib/styles/publicprof.css';
+	import { base } from '$app/paths';
 
 	// Example usage
 	const url = API_URL;
@@ -57,7 +58,7 @@
 		token = localStorage.getItem('token');
 		if (!token) {
 			error = 'You are not logged in.';
-			window.location.href = '/login';
+			window.location.href = base + '/login';
 			return;
 		}
 
@@ -205,7 +206,10 @@
 								<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
 								<div class="user-info">
 									<div class="user-name">
-										<a href="/profile/others?name={post.username}st.username}st.username}st.username}st.username}">{post.username}</a>
+										<a
+											href="{base}/profile/others?name={post.username}st.username}st.username}st.username}st.username}"
+											>{post.username}</a
+										>
 									</div>
 									<!-- <div class="user-role">Product Designer, slothUI</div> -->
 								</div>

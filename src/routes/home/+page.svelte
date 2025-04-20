@@ -3,6 +3,8 @@
 	import { API_URL } from '$lib/config';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import NewPostModal from '$lib/components/NewPostModal.svelte';
+	import { base } from '$app/paths';
+
 	let showNewPostModal = false;
 	let username = 'Abbasi';
 	let token;
@@ -130,7 +132,7 @@
 		let user = JSON.parse(localStorage.getItem('user'));
 		if (!token || !user) {
 			error = 'Please log in.';
-			window.location.href = '/login';
+			window.location.href = base + '/login';
 			return;
 		}
 	}
@@ -184,7 +186,9 @@
 					<div class="post-header">
 						<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
 						<div class="user-info">
-							<div class="user-name"><a href="/profile/others?name={post.username}">{post.username}</a></div>
+							<div class="user-name">
+								<a href="{base}/profile/others?name={post.username}">{post.username}</a>
+							</div>
 
 							<div class="user-role">{formatDate(post.timeStamp)}</div>
 						</div>

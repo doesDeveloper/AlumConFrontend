@@ -1,9 +1,12 @@
+<script>
+	import { base } from '$app/paths';
+</script>
+
 <h1>Welcome to Alumnicon</h1>
 <nav>
-  <a href="/login">Login</a>
-  <a href="/register">Register</a>
-  <a href="/feed">feed me</a>
-  <a href="/alumnis">Alumni</a>
-  <a href="/profile">Profile</a>
-  
+	<a href="{base}/login">Login</a>
+	<a href="{base}/register">Register</a>
+	<a href="{base}/feed">feed me</a>
+	<a href="{base}/alumnis">Alumni</a>
+	<a href="{base}/profile">Profile</a>
 </nav>

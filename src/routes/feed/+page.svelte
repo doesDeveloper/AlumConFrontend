@@ -129,7 +129,7 @@
 		token = localStorage.getItem('token');
 		if (!token) {
 			error = 'Please log in.';
-			window.location.href = '/login';
+			window.location.href = base + '/login';
 			return;
 		}
 

@@ -1,6 +1,8 @@
 <script>
 	import '$lib/styles/sidebar.css';
 	import '$lib/styles/postcard.css';
+	import { base } from '$app/paths';
+
 	import { onMount } from 'svelte';
 	let username = '';
 	let fullName = '';
@@ -11,7 +13,7 @@
 			username = user.username;
 			fullName = user.firstName + ' ' + user.lastName;
 		} else {
-			window.location.href = '/login';
+			window.location.href = base + '/login';
 		}
 	});
 </script>
@@ -25,17 +27,17 @@
 		<input type="text" placeholder="Search..." />
 	</div>
 	<ul class="menu">
-		<li><a href="/home"><span class="icon">🏠</span> Feed <span class="badge">10</span></a></li>
-		<li><a href="/"><span class="icon">📋</span> Stories</a></li>
+		<li><a href="{base}/home"><span class="icon">🏠</span> Feed <span class="badge">10</span></a></li>
+		<li><a href="{base}/"><span class="icon">📋</span> Stories</a></li>
 		<li>
-			<a href="/alumnis"><span class="icon">👥</span> Alumnis <span class="badge">2</span></a>
+			<a href="{base}/alumnis"><span class="icon">👥</span> Alumnis <span class="badge">2</span></a>
 		</li>
-		<li><a href="/"><span class="icon">🧊</span> APIs</a></li>
-		<li><a href="/"><span class="icon">💳</span> Subscription</a></li>
-		<li><a href="/"><span class="icon">⚙️</span> Settings</a></li>
-		<li><a href="/"><span class="icon">❓</span> Help & Support</a></li>
+		<li><a href="{base}/"><span class="icon">🧊</span> APIs</a></li>
+		<li><a href="{base}/"><span class="icon">💳</span> Subscription</a></li>
+		<li><a href="{base}/"><span class="icon">⚙️</span> Settings</a></li>
+		<li><a href="{base}/"><span class="icon">❓</span> Help & Support</a></li>
 	</ul>
-	<a href="/profile">
+	<a href="{base}/profile">
 		<div class="user-profile">
 			<div class="logo-icon">{fullName.charAt(0).toUpperCase()}</div>
 			<div class="user-info">
