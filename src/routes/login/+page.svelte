@@ -124,7 +124,13 @@
 				body: JSON.stringify(registerData)
 			});
 			const data = await response.text();
-			if (!response.ok) throw new Error(data.message || 'Failed to register');
+			if (!response.ok) {
+				console.error(response);
+				let eee = await response.text();
+				console.log('WAS HERE');
+				console.error(eee);
+				throw new Error(data.message || 'Failed to register');
+			}
 
 			successMessage = 'Registration successful! You can now log in.';
 			setTimeout(() => {
@@ -348,8 +354,8 @@
 										<label for="isAlumni">Are you an alumni?</label>
 										<select id="isAlumni" bind:value={registerData.isAlumni} required>
 											<option value="" disabled selected>Select an option</option>
-											<option value="yes">Yes</option>
-											<option value="no">No</option>
+											<option value="true">Yes</option>
+											<option value="false">No</option>
 										</select>
 									</div>
 								</div>

@@ -150,6 +150,7 @@
 			<div class="top-bar">
 				<input type="text" placeholder="Search for friends, groups, pages" />
 				<button class="add-post-btn" on:click={() => (showNewPostModal = true)}>Post ➕</button>
+				<!-- on building with  static adapter this does not work change this so that it works  -->
 			</div>
 
 			{#if loading}
@@ -232,19 +233,39 @@
 					</div>
 				{/each}
 				<!-- Pagination Controls -->
-				<div class="pagination">
-					<button on:click={() => changePage(page - 1)} disabled={page === 0}> Previous </button>
-
-					{#each Array(totalPages) as _, i}
-						<button class:selected={i === page} on:click={() => changePage(i)}>
-							{i + 1}
+				{#if totalPages > 1}
+					<div class="pagination">
+						<button class="pagination-btn" disabled={page === 0} on:click={() => changePage(0)}>
+							« First
 						</button>
-					{/each}
+						<button
+							class="pagination-btn"
+							disabled={page === 0}
+							on:click={() => changePage(page - 1)}
+						>
+							‹ Previous
+						</button>
 
-					<button on:click={() => changePage(page + 1)} disabled={page >= totalPages - 1}>
-						Next
-					</button>
-				</div>
+						<div class="page-info">
+							<span class="current-page">{page + 1}</span> of {totalPages}
+						</div>
+
+						<button
+							class="pagination-btn"
+							disabled={page >= totalPages - 1}
+							on:click={() => changePage(page + 1)}
+						>
+							Next ›
+						</button>
+						<button
+							class="pagination-btn"
+							disabled={page >= totalPages - 1}
+							on:click={() => changePage(totalPages - 1)}
+						>
+							Last »
+						</button>
+					</div>
+				{/if}
 			{/if}
 		</div>
 	</div>
@@ -282,6 +303,71 @@
 		font-weight: bold;
 		text-decoration: underline;
 	}
+	/* Pagination Styles */
+	.pagination {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 30px 0;
+		gap: 8px;
+	}
+	.pagination-btn {
+		background-color: #f5f7fa;
+		border: 1px solid #ddd;
+		border-radius: 6px;
+		padding: 8px 16px;
+		font-size: 14px;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+	.pagination-btn:hover:not([disabled]) {
+		background-color: #eef2ff;
+		border-color: #0077ff;
+		color: #0077ff;
+	}
+	.pagination-btn[disabled] {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+	.page-info {
+		padding: 8px 16px;
+		background-color: #f5f7fa;
+		border-radius: 6px;
+		border: 1px solid #ddd;
+		font-size: 14px;
+	}
+	.current-page {
+		font-weight: bold;
+		color: #0077ff;
+	}
+	/* No results styling */
+	.no-results {
+		text-align: center;
+		padding: 40px 20px;
+		background-color: #f9f9f9;
+		border-radius: 8px;
+		margin: 20px 0;
+	}
+	.no-results-icon {
+		font-size: 48px;
+		margin-bottom: 16px;
+	}
+	.no-results h3 {
+		color: #333;
+		margin-bottom: 8px;
+	}
+	.no-results p {
+		color: #666;
+	}
+	/* Make sure the layout is responsive */
+	@media (max-width: 768px) {
+		.search-row {
+			flex-direction: column;
+		}
 
+		.pagination {
+			flex-wrap: wrap;
+		}
+	}
 	/* .error { color: #c00; margin: 1rem 0; } */
 </style>

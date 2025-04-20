@@ -59,6 +59,7 @@
 			const data = await response.json();
 
 			if (!response.ok) {
+				console.error(response);
 				throw new Error(data.message || 'Failed to register');
 			}
 
