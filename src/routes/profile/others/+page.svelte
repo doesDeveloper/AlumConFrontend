@@ -8,6 +8,7 @@
 	import { get } from 'svelte/store';
 	import PostCard from '$lib/components/PostCard.svelte';
 	import { base } from '$app/paths';
+    import UserAvatar from '$lib/components/UserAvatar.svelte';
 
 	let publicUser = null;
 	let error = null;
@@ -91,7 +92,7 @@
 			{:else if publicUser}
 				<div class="profile-card">
 					<div class="profile-header">
-						<div class="logo-icon profile-pic logo-text">A</div>
+						<UserAvatar username={publicUser.username} size="60px" />
 						<div>
 							<h2>{publicUser.firstName} {publicUser.lastName}</h2>
 							<p class="username">@{publicUser.username}</p>

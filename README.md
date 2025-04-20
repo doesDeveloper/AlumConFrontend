@@ -1,57 +1,103 @@
-# AlumCon
+# AlumniCon – Alumni Connect Portal
 
-AlumCon is a LinkedIn-style alumni networking platform built using **Svelte.js** for the frontend.  
-This project was created for a hackathon with the goal of connecting alumni and students of institutions, enabling them to share opportunities, build connections, and grow together.
+**AlumniCon** is a full-stack web application designed to help alumni stay connected and engaged with their academic network. The platform facilitates professional networking, social engagement, and knowledge sharing among alumni through real-time messaging, profile discovery, and community posts.
 
----
-
-## Live Demo  
-Coming soon.
+**Live Demo:**  
+[https://doesdeveloper.github.io/AlumConFrontend/](https://doesdeveloper.github.io/AlumConFrontend/)
 
 ---
 
-## Screenshots  
-(Add relevant screenshots or gifs of your application here.)
+## Table of Contents
+
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Pages and Routes](#pages-and-routes)
+- [Getting Started](#getting-started)
+  - [Backend Setup](#backend-setup)
+  - [Frontend Setup](#frontend-setup)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
 
 ---
 
-## Tech Stack  
+## Features
 
-- **Frontend:** [Svelte.js](https://svelte.dev/)
-- **Backend:** [Java Spring Boot](https://spring.io/projects/spring-boot) (in progress)
-- **Database:** [MongoDB](https://www.mongodb.com/)
-
----
-
-## Features  
-
-- User registration and login  
-- Profile creation and editing  
-- Alumni connection system  
-- News feed and opportunity posts  
-- Search for users and alumni  
-- Private messaging (planned)  
-- Clean, fast, and responsive UI with Svelte  
+- Secure user registration and login
+- Rich user profiles with education, career, and personal information
+- Editable personal profile page
+- Explore and search alumni by name , job title , city , college
+- Filterable and sortable alumni directory
+- One-on-one real-time chat system
+- Interactive home feed for posts and achievements
+- Support for editing and viewing detailed alumni accomplishments
+- Lightweight, responsive, and user-friendly interface
 
 ---
 
-## Getting Started
 
-### Prerequisites
-- [Node.js](https://nodejs.org/en/) installed
-- [npm](https://www.npmjs.com/) package manager
+## Technology Stack
 
-### Installation
+### Backend
 
-```bash
-# Clone the repository
-git clone https://github.com/doesDeveloper/AlumConFrontend.git
+- **Spring Boot** – RESTful API server
+- **MongoDB** – NoSQL database
+- **Java **
 
-# Navigate to the project directory
-cd AlumConFrontend
+### Frontend
 
-# Install dependencies
-npm install
+- **SvelteJS** – Reactive frontend framework
+- **HTML5, CSS3** – Markup and styling
+- **JavaScript**
 
-# Start the development server
-npm run dev
+### Hosting
+
+- **GitHub Pages** – Frontend deployment
+
+---
+
+## Pages and Routes
+
+### 1. **User Registration & Login**
+The registration page includes a login section and a form to collect the following fields:
+
+- `username`, `password`
+- `firstName`, `lastName`
+- `email`, `phone`, `address`, `city`, `zip`
+- `education`, `schoolName`, `collegeName`, `branch`
+- `jobTitle`, `skills`, `interests`, `bio`
+- `passOutYear`, `isAlumni`
+
+### 2. **Personal Profile Page**
+- View and update your profile data
+- Editable fields for bio, education, professional and personal details
+- Change password or account settings
+
+### 3. **Other Alumni Profiles**
+- View profiles of other alumni with full details
+- Follow/unfollow options
+- Read-only view of their posts and achievements
+
+### 4. **Alumni Directory**
+- A searchable, filterable, and sortable list of all registered alumni
+- Filter by `college`, `city`, `jobTitle`, and more
+- Live search and alphabetical sorting
+
+### 5. **Chat System**
+- Real-time messaging with other alumni
+- View recent conversations and start new chats
+- Message history and notifications
+
+### 6. **Home Feed**
+- View posts created by yourself and others
+- Like, comment, and interact with posts
+- Create new posts to share achievements or updates
+
+### 7. **Achievements & Education Sections**
+- Detailed information about academic background
+- Highlight career milestones, certifications, awards, and other achievements
+- Organized tabs/sections within profiles
+
+---
+
+

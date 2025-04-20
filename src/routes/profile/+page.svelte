@@ -7,6 +7,7 @@
 	import { base } from '$app/paths';
 	import PostCard from '$lib/components/PostCard.svelte';
 	import { goto } from '$app/navigation';
+    import UserAvatar from '$lib/components/UserAvatar.svelte';
 
 	// Example usage
 	const url = API_URL;
@@ -139,7 +140,7 @@
 
 				<div class="profile-card">
 					<div class="profile-header">
-						<div class="logo-icon profile-pic logo-text">A</div>
+						<UserAvatar username={user.username} size="60px" />
 						<div>
 							{#if !isEditing}
 								<h2>{user.firstName} {user.lastName}</h2>

@@ -2,6 +2,7 @@
 	import '$lib/styles/sidebar.css';
 	import '$lib/styles/postcard.css';
 	import { base } from '$app/paths';
+    import UserAvatar from '$lib/components/UserAvatar.svelte';
 
 	import { onMount } from 'svelte';
 	let username = '';
@@ -63,7 +64,7 @@
 	</ul>
 	<a href="{base}/profile">
 		<div class="user-profile">
-			<div class="logo-icon">{fullName.charAt(0).toUpperCase()}</div>
+			<UserAvatar username={username} size="60px" />
 			<div class="user-info">
 				<div class="name">{fullName}</div>
 				<div class="role">@{username}</div>
