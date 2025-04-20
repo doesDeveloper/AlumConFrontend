@@ -3,7 +3,7 @@
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
 	onMount(() => {
-		goto(base + '/home');
+		window.location.href = base + '/login';
 	});
 </script>
 

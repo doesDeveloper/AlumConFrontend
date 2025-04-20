@@ -21,7 +21,8 @@
 		const nameParam = currentPage.url.searchParams.get('name');
 		username = nameParam;
 		if (!username) {
-			goto(base +'/profile/');
+			// goto(base +'/profile/');
+			window.location.href = base + '/profile/';
 		}
 		token = localStorage.getItem('token');
 		if (!token) {
