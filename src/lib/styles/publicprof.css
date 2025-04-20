@@ -136,3 +136,90 @@
     color: #666;
     font-weight: 400;
 }
+
+.achievements {
+    margin-top: 2rem;
+    margin-left: 0.5rem;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.achievement-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+    z-index: 1;
+    /* Ensure card is above the animated border */
+}
+
+.achievement-card h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.achievement-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Container for the animated border */
+.achievement-card-wrapper {
+    position: relative;
+    border-radius: 0.75rem;
+    margin-bottom: 0;
+}
+
+/* Hover effects */
+.achievement-card-wrapper:hover .achievement-card {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Animated border element */
+.animated-border {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 0.85rem;
+    background: linear-gradient(45deg, #6b5bff, #ffffff, #6b5bff, #ffffff);
+    background-size: 400% 400%;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.achievement-card-wrapper:hover .animated-border {
+    opacity: 1;
+    animation: gradient-rotate 3s ease infinite;
+}
+
+@keyframes gradient-rotate {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Additional subtle effects */
+.achievement-card-wrapper:hover h4 {
+    color: #6b5bff;
+}

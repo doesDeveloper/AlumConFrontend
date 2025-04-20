@@ -150,7 +150,7 @@ body {
   flex-grow: 1;
 }
 
-.name {
+.user-info .name {
   font-size: 14px;
   font-weight: 600;
   color: #1e293b;

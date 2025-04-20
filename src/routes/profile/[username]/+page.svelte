@@ -90,6 +90,43 @@
 				</div>
 			</div>
 			<div class="profile-card education-card">
+				<div class="achievements">
+					<h3 class="card-heading">Achievements 🏆</h3>
+					<div class="achievements-grid">
+						<div class="achievement-card-wrapper">
+							<div class="animated-border"></div>
+							<div class="achievement-card">
+								<div>
+									<h4>Top Contributor</h4>
+									<p>Recognized for sharing 100+ quality posts.</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="achievement-card-wrapper">
+							<div class="animated-border"></div>
+							<div class="achievement-card">
+								<div>
+									<h4>Verified Member</h4>
+									<p>Officially verified profile badge earned.</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="achievement-card-wrapper">
+							<div class="animated-border"></div>
+							<div class="achievement-card">
+								<div>
+									<h4>Early Adopter</h4>
+									<p>Joined within the first 100 users!</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="profile-card education-card">
 				<h3 class="card-heading">Education</h3>
 				<div class="education-details">
 					<div class="institution-name">{publicUser.collegeName}</div>
