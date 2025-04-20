@@ -1,52 +1,31 @@
-name: Deploy to GitHub Pages
+name: Deploy Svelte to GitHub Pages
 
 on:
   push:
-    branches: [master]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches:
+      - main   # or master or whichever branch you want to trigger deploy
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Setup upload-artifact manually
-        uses: actions/upload-artifact@v3
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          version: 8
+          node-version: '20'  # or your version
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Svelte App
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          node-version: 18
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-        with:
-          static_site_generator: sveltekit
-
-      - name: Build
-        run: pnpm run build
-
-      - name: Upload build output
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: 'build/'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build   # change if your build output is different
