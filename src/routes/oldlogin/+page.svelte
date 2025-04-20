@@ -79,7 +79,7 @@
 
 		<p class="alt-action">
 			Don’t have an account?
-			<a href="/register">Sign Up</a>
+			<a href="{base}/register">Sign Up</a>
 		</p>
 	</div>
 </div>

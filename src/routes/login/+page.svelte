@@ -207,14 +207,6 @@
 									{#if errors.password}<p class="field-error">{errors.password}</p>{/if}
 								</div>
 
-								<div class="remember-forgot">
-									<div class="remember">
-										<input type="checkbox" id="remember" />
-										<label for="remember">Remember me</label>
-									</div>
-									<a href="/forgot-password" class="forgot">Forgot password?</a>
-								</div>
-
 								<button class="btn" type="submit" disabled={isSubmitting}>
 									{isSubmitting ? 'Signing in...' : 'Sign In'}
 								</button>
