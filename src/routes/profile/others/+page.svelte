@@ -15,7 +15,6 @@
 	let postsData = null;
 	let loading = false;
 
-	// $: username = $page.params.username;
 
 	onMount(async () => {
 		const currentPage = get(page);
