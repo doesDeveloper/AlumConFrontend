@@ -218,8 +218,7 @@
 				<div class="description" id="roomId">Username: @{reciever}</div>
 				<div class="ppic stark"></div>
 			</div>
-			<div class="messages" id="chat-box" bind:this={chatBox}>
-			</div>
+			<div class="messages" id="chat-box" bind:this={chatBox}></div>
 			<div class="input">
 				<input
 					placeholder="Type your message here!"
