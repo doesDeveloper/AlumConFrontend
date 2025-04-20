@@ -26,7 +26,7 @@
 - Secure user registration and login
 - Rich user profiles with education, career, and personal information
 - Editable personal profile page
-- Explore and search alumni by name, branch, job title, or pass-out year
+- Explore and search alumni by name , job title , city , college
 - Filterable and sortable alumni directory
 - One-on-one real-time chat system
 - Interactive home feed for posts and achievements
@@ -42,7 +42,7 @@
 
 - **Spring Boot** – RESTful API server
 - **MongoDB** – NoSQL database
-- **Java 17+**
+- **Java **
 
 ### Frontend
 
@@ -80,7 +80,7 @@ The registration page includes a login section and a form to collect the followi
 
 ### 4. **Alumni Directory**
 - A searchable, filterable, and sortable list of all registered alumni
-- Filter by `branch`, `passOutYear`, `jobTitle`, and more
+- Filter by `college`, `city`, `jobTitle`, and more
 - Live search and alphabetical sorting
 
 ### 5. **Chat System**
@@ -100,19 +100,4 @@ The registration page includes a login section and a form to collect the followi
 
 ---
 
-## Getting Started
-
-### Backend Setup
-
-#### Prerequisites
-- Java 17+
-- Maven
-- MongoDB (local or cloud)
-
-#### Steps
-
-1. Clone the backend repository:
-   ```bash
-   git clone <your-backend-repo-url>
-   cd backend
 
