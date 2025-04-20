@@ -114,7 +114,7 @@
 								{expanded ? '▲' : '▼'}
 							</button>
 						</div>
-
+						
 						<!-- Expandable section -->
 						{#if expanded}
 							<div class="expanded-fields" transition:slide={{ duration: 300 }}>
@@ -154,7 +154,7 @@
 					</div>
 				</div>
 			</div>
-
+			<h2 class="feed-heading"> 🧑‍🎓 Alumni List</h2>
 			{#if error}
 				<p class="error-message">{error}</p>
 			{:else if loading}
@@ -428,5 +428,16 @@
 		.pagination {
 			flex-wrap: wrap;
 		}
+	}
+	.feed-heading {
+		font-size: 1.8rem;
+		font-weight: 600;
+		color: #333;
+		margin: 50px 0 16px 0; /* increased top margin here */
+		padding-left: 10px;
+		border-left: 4px solid #4caf50;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 </style>

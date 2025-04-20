@@ -33,6 +33,7 @@
 		skills: '',
 		interests: '',
 		bio: '',
+		passOutYear: '',
 		isAlumni: ''
 	};
 
@@ -334,6 +335,11 @@
 											<option value="Delhi University">Delhi University</option>
 										</select>
 									</div>
+									<div class="field">
+										<label for="passOutYear">Pass Out Year*</label>
+										<input id="passOutYear" type="number" bind:value={registerData.passOutYear} required />
+									</div>
+
 									<div class="field">
 										<label for="branch">Branch*</label>
 										<input id="branch" type="text" bind:value={registerData.branch} required />

@@ -3,13 +3,13 @@
 	import { API_URL } from '$lib/config';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import NewPostModal from '$lib/components/NewPostModal.svelte';
+	import PostCard from '$lib/components/PostCard.svelte';
 	import { base } from '$app/paths';
 
 	let showNewPostModal = false;
 	let username = 'Abbasi';
 	let token;
 	let posts = [];
-	// let username = '';
 	let error = '';
 	let success = '';
 	let loading = false;
@@ -18,46 +18,6 @@
 	let page = 0; // zero-based page index
 	let size = 10; // items per page
 	let totalPages = 1; // will be set by API response
-	//convert recieved timestamp to readable formatted date format
-	// timeStamp is like 1745069265865
-	function formatDate(timestamp) {
-		const timestampNum = Number(timestamp);
-		const date = new Date(timestampNum);
-		console.log(date);
-		const options = { year: 'numeric', month: 'long', day: 'numeric' };
-		return date.toLocaleDateString('en-US', options);
-	}
-
-	const votePost = async (postId, voteValue) => {
-		try {
-			// loading = true;
-
-			const res = await fetch(`${API_URL}posts/indiv/${postId}/vote?voteValue=${voteValue}`, {
-				method: 'POST',
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			});
-
-			if (!res.ok) throw new Error('Failed to vote on post');
-			let data = await res.text();
-
-			// Find the voted post in the posts array and update its voteCount locally
-			posts = posts.map((post) => {
-				if (post.id === postId) {
-					return { ...post, voteCount: data };
-				}
-				return post;
-			});
-
-			console.log(`Voted post: ${postId}, value: ${voteValue}`);
-		} catch (err) {
-			console.error(err);
-			error = err.message;
-		} finally {
-			// loading = false;
-		}
-	};
 
 	// Fetch posts for current page
 	async function fetchPosts() {
@@ -83,6 +43,19 @@
 		if (newPage < 0 || newPage >= totalPages) return;
 		page = newPage;
 		fetchPosts();
+	}
+
+	// Handle post updates from the PostCard component
+	function handlePostUpdate(event) {
+		const { postId, voteCount, ownVote } = event.detail;
+
+		// Update the post in the posts array
+		posts = posts.map((post) => {
+			if (post.id === postId) {
+				return { ...post, voteCount, ownVote };
+			}
+			return post;
+		});
 	}
 
 	// Create a new post
@@ -127,6 +100,7 @@
 			loading = false;
 		}
 	};
+
 	async function checkAuth() {
 		token = localStorage.getItem('token');
 		let user = JSON.parse(localStorage.getItem('user'));
@@ -136,6 +110,7 @@
 			return;
 		}
 	}
+
 	onMount(async () => {
 		await checkAuth();
 		await fetchPosts();
@@ -150,11 +125,11 @@
 			<div class="top-bar">
 				<input type="text" placeholder="Search for friends, groups, pages" />
 				<button class="add-post-btn" on:click={() => (showNewPostModal = true)}>Post ➕</button>
-				<!-- on building with  static adapter this does not work change this so that it works  -->
 			</div>
+			<h2 class="feed-heading">📢 Community Feed</h2>
 
 			{#if loading}
-				{#each [...Array(10)] as i}
+				{#each [...Array(10)] as _, i}
 					<div class="post-card loading">
 						<div class="post-header">
 							<div class="logo-icon user-avatar skeleton-circle"></div>
@@ -181,57 +156,16 @@
 			{:else if posts.length === 0}
 				<p>No posts yet.</p>
 			{:else}
-				<!-- Post Card -->
-				{#each posts as post}
-					<div class="post-card">
-						<div class="post-header">
-							<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
-							<div class="user-info">
-								<div class="user-name">
-									<a href="{base}/profile/others?name={post.username}">{post.username}</a>
-								</div>
-
-								<div class="user-role">{formatDate(post.timeStamp)}</div>
-							</div>
-							<div class="post-menu">⋮</div>
-						</div>
-
-						<div class="post-content">
-							<div class="post-title">{post.title}</div>
-							<p>
-								{post.content}
-							</p>
-							<!-- <span class="hashtags">#amazing #great #lifetime #uiux #machinelearning</span> -->
-						</div>
-
-						<!-- <div class="post-image">
-					<img src="assets/images/postimg.png" alt="Post Image" />
-				</div> -->
-
-						<div class="post-actions">
-							<!-- <div>❤️ {post.voteCount} Likes</div> -->
-							<span class="post-upvote">
-								<button on:click={() => votePost(post.id, 1)} aria-label="Upvote"
-									><i class="fas fa-arrow-up"></i></button
-								>
-								{post.voteCount}
-								<button on:click={() => votePost(post.id, -1)} aria-label="Downvote"
-									><i class="fas fa-arrow-down"></i></button
-								>
-							</span>
-							<div>💬 Comments</div>
-							<div>🔁 Share</div>
-						</div>
-
-						<!-- <div class="post-comment">
-                    <img src="user-avatar.jpg" alt="User" class="comment-avatar">
-                    <input type="text" placeholder="Write your comment...">
-                    <div class="comment-icons">
-                        😊 📎 📨
-                    </div>
-                </div> -->
-					</div>
+				<!-- Using the PostCard component for each post -->
+				{#each posts as post (post.id)}
+					<PostCard
+						{post}
+						{token}
+						on:postUpdated={handlePostUpdate}
+						on:error={(e) => (error = e.detail)}
+					/>
 				{/each}
+
 				<!-- Pagination Controls -->
 				{#if totalPages > 1}
 					<div class="pagination">
@@ -245,11 +179,9 @@
 						>
 							‹ Previous
 						</button>
-
 						<div class="page-info">
 							<span class="current-page">{page + 1}</span> of {totalPages}
 						</div>
-
 						<button
 							class="pagination-btn"
 							disabled={page >= totalPages - 1}
@@ -278,6 +210,7 @@
 />
 
 <style>
+	/* Your existing styles from the original component */
 	.add-post-btn {
 		background: #007aff;
 		color: white;
@@ -293,16 +226,38 @@
 		background: #005ec2;
 	}
 
-	.pagination {
-		display: flex;
-		gap: 0.5rem;
-		margin: 1rem 0;
-		flex-wrap: wrap;
+	/* Skeleton loading styles */
+	.loading .skeleton-circle {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background-color: #f0f0f0;
 	}
-	.pagination button.selected {
-		font-weight: bold;
-		text-decoration: underline;
+
+	.loading .skeleton-text {
+		height: 16px;
+		background-color: #f0f0f0;
+		border-radius: 4px;
+		margin: 8px 0;
+		width: 70%;
 	}
+
+	.loading .skeleton-text.short {
+		width: 40%;
+	}
+
+	.loading .skeleton-text.tiny {
+		width: 20%;
+		height: 12px;
+	}
+
+	.loading .skeleton-rect {
+		width: 24px;
+		height: 24px;
+		background-color: #f0f0f0;
+		border-radius: 4px;
+	}
+
 	/* Pagination Styles */
 	.pagination {
 		display: flex;
@@ -311,6 +266,7 @@
 		margin: 30px 0;
 		gap: 8px;
 	}
+
 	.pagination-btn {
 		background-color: #f5f7fa;
 		border: 1px solid #ddd;
@@ -320,15 +276,18 @@
 		cursor: pointer;
 		transition: all 0.2s ease;
 	}
+
 	.pagination-btn:hover:not([disabled]) {
 		background-color: #eef2ff;
 		border-color: #0077ff;
 		color: #0077ff;
 	}
+
 	.pagination-btn[disabled] {
 		opacity: 0.5;
 		cursor: not-allowed;
 	}
+
 	.page-info {
 		padding: 8px 16px;
 		background-color: #f5f7fa;
@@ -336,38 +295,28 @@
 		border: 1px solid #ddd;
 		font-size: 14px;
 	}
+
 	.current-page {
 		font-weight: bold;
 		color: #0077ff;
 	}
-	/* No results styling */
-	.no-results {
-		text-align: center;
-		padding: 40px 20px;
-		background-color: #f9f9f9;
-		border-radius: 8px;
-		margin: 20px 0;
-	}
-	.no-results-icon {
-		font-size: 48px;
-		margin-bottom: 16px;
-	}
-	.no-results h3 {
-		color: #333;
-		margin-bottom: 8px;
-	}
-	.no-results p {
-		color: #666;
-	}
-	/* Make sure the layout is responsive */
-	@media (max-width: 768px) {
-		.search-row {
-			flex-direction: column;
-		}
 
+	/* Responsiveness */
+	@media (max-width: 768px) {
 		.pagination {
 			flex-wrap: wrap;
 		}
 	}
-	/* .error { color: #c00; margin: 1rem 0; } */
+	.feed-heading {
+		font-size: 1.8rem;
+		font-weight: 600;
+		color: #333;
+		margin: 50px 0 16px 0; /* increased top margin here */
+		padding-left: 10px;
+		border-left: 4px solid #4caf50;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	
 </style>
