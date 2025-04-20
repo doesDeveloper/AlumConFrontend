@@ -135,12 +135,14 @@
 					<div class="logo-icon">{user.username.charAt(0).toUpperCase()}</div>
 					<div class="info">
 						<div class="name">
-							<a href="/profile/{user.username}">{user.firstName} {user.lastName}</a>
+							<a href="/profile/others?name={user.username}">{user.firstName} {user.lastName}</a>
 						</div>
 						<div class="title">{user.jobTitle} from {user.city}</div>
 						<div class="bio">{user.bio}</div>
 					</div>
-					<a href="/profile/{user.username}"><button class="connect-btn">Profile</button></a>
+					<a href="/profile/others?name={user.username}"
+						><button class="connect-btn">Profile</button></a
+					>
 				</div>
 			{/each}
 		{:else}

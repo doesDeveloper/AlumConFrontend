@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import '$lib/styles/publicprof.css';
+	import { goto } from '$app/navigation';
 
 	let publicUser = null;
 	let error = null;
@@ -13,9 +14,14 @@
 	let postsData = null;
 	let loading = false;
 
-	$: username = $page.params.username;
+	// $: username = $page.params.username;
 
+	$: nameParam = $page.url.searchParams.get('name');
 	onMount(async () => {
+		username = nameParam;
+		if (!username) {
+			goto('/profile/');
+		}
 		token = localStorage.getItem('token');
 		if (!token) {
 			error = 'You are not logged in.';
@@ -189,7 +195,7 @@
 								<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
 								<div class="user-info">
 									<div class="user-name">
-										<a href="/profile/{post.username}">{post.username}</a>
+										<a href="/profile/others?name={post.username}">{post.username}</a>
 									</div>
 									<!-- <div class="user-role">Product Designer, slothUI</div> -->
 								</div>

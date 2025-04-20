@@ -205,7 +205,7 @@
 								<div class="logo-icon user-avatar">{post.username.charAt(0).toUpperCase()}</div>
 								<div class="user-info">
 									<div class="user-name">
-										<a href="/profile/{post.username}">{post.username}</a>
+										<a href="/profile/others?name={post.username}st.username}st.username}st.username}st.username}">{post.username}</a>
 									</div>
 									<!-- <div class="user-role">Product Designer, slothUI</div> -->
 								</div>

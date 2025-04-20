@@ -87,7 +87,7 @@
 {:else if users}
   {#each users.content as user (user.username)}
     <div class="user-card">
-      <h2><a href="/profile/{user.username}">@{user.username}</a></h2>
+      <h2><a href="/profile/others?name={user.username}">@{user.username}</a></h2>
       <p><strong>Name:</strong> {user.firstName} {user.lastName}</p>
       <p><strong>Job Title:</strong> {user.jobTitle}</p>
       <p><strong>College:</strong> {user.collegeName}</p>
