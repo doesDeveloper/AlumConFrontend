@@ -93,6 +93,26 @@
 							<p class="username">@{publicUser.username}</p>
 							<p class="location">From {publicUser.city}</p>
 						</div>
+
+						<!-- Added the chat button here -->
+
+						
+						<button class="chat-button">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="18"
+								height="18"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+							</svg>
+							<span>Message</span>
+						</button>
 					</div>
 					<div class="stats">
 						<div><strong>{postsData?.totalElements || '0'}</strong><br /> Posts</div>
