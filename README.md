@@ -1,38 +1,57 @@
-# sv
+# AlumCon
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+AlumCon is a LinkedIn-style alumni networking platform built using **Svelte.js** for the frontend.  
+This project was created for a hackathon with the goal of connecting alumni and students of institutions, enabling them to share opportunities, build connections, and grow together.
 
-## Creating a project
+---
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Live Demo  
+Coming soon.
+
+---
+
+## Screenshots  
+(Add relevant screenshots or gifs of your application here.)
+
+---
+
+## Tech Stack  
+
+- **Frontend:** [Svelte.js](https://svelte.dev/)
+- **Backend:** [Java Spring Boot](https://spring.io/projects/spring-boot) (in progress)
+- **Database:** [MongoDB](https://www.mongodb.com/)
+
+---
+
+## Features  
+
+- User registration and login  
+- Profile creation and editing  
+- Alumni connection system  
+- News feed and opportunity posts  
+- Search for users and alumni  
+- Private messaging (planned)  
+- Clean, fast, and responsive UI with Svelte  
+
+---
+
+## Getting Started
+
+### Prerequisites
+- [Node.js](https://nodejs.org/en/) installed
+- [npm](https://www.npmjs.com/) package manager
+
+### Installation
 
 ```bash
-# create a new project in the current directory
-npx sv create
+# Clone the repository
+git clone https://github.com/doesDeveloper/AlumConFrontend.git
 
-# create a new project in my-app
-npx sv create my-app
-```
+# Navigate to the project directory
+cd AlumConFrontend
 
-## Developing
+# Install dependencies
+npm install
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+# Start the development server
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
