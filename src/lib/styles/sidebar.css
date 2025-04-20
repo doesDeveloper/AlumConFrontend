@@ -131,13 +131,6 @@ body {
   font-weight: bold;
 }
 
-.user-profile {
-  display: flex;
-  align-items: center;
-  margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid #e2e8f0;
-}
 
 .user-profile img {
   width: 40px;
@@ -169,4 +162,24 @@ body {
 .layout {
   display: flex;
   min-height: 100vh;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.user-profile:hover {
+  border-top: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+  /* border: 1px solid #e2e8f0; */
+  /* padding: 16px; */
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  /* border-radius: 12px; */
 }

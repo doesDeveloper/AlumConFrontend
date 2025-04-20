@@ -1,7 +1,7 @@
 .center-container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 5px;
     /* font-family: 'Inter', sans-serif; */
     font-family: "Plus Jakarta Sans", sans-serif;
 
@@ -43,6 +43,7 @@
     border-radius: 9999px;
     font-size: 14px;
     margin-right: 12px;
+    padding-left: 15px;
 }
 
 .add-post-btn {

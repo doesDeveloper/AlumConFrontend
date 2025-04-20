@@ -125,15 +125,17 @@
 			loading = false;
 		}
 	};
-
-	onMount(async () => {
+	async function checkAuth() {
 		token = localStorage.getItem('token');
-		if (!token) {
+		let user = JSON.parse(localStorage.getItem('user'));
+		if (!token || !user) {
 			error = 'Please log in.';
 			window.location.href = '/login';
 			return;
 		}
-
+	}
+	onMount(async () => {
+		await checkAuth();
 		await fetchPosts();
 	});
 </script>
