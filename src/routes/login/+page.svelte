@@ -316,7 +316,7 @@
 											required
 										/>
 									</div>
-									<div class="field">
+									<!-- <div class="field">
 										<label for="collegeName">College Name*</label>
 										<input
 											id="collegeName"
@@ -324,6 +324,15 @@
 											bind:value={registerData.collegeName}
 											required
 										/>
+									</div> -->
+									<div class="field">
+										<label for="university">College Name*</label>
+										<select id="university" bind:value={registerData.collegeName} required>
+											<option value="" disabled selected>Select a university</option>
+											<option value="Jamia Millia Islamia">Jamia Millia Islamia</option>
+											<option value="Aligarh Muslim University">Aligarh Muslim University</option>
+											<option value="Delhi University">Delhi University</option>
+										</select>
 									</div>
 									<div class="field">
 										<label for="branch">Branch*</label>

@@ -1,22 +1,27 @@
 <script>
-    export let show = false;
-    export let onClose;
-    export let onSubmit;
-  
-    let title = '';
-    let content = '';
-  
-    function handleSubmit() {
-      console.log('Submitting new post:', title, content);
-      if (title.trim() && content.trim()) {
-        onSubmit(title, content);
-        title = '';
-        content = '';
-        onClose();
-      }
-    }
-  
-  </script>
+	export let show = false;
+	export let onClose;
+	export let onSubmit;
+
+	let title = '';
+	let content = '';
+
+	function handleSubmit() {
+		console.log('Submitting new post:', title, content);
+		if (title.trim() && content.trim()) {
+			onSubmit(title, content);
+			title = '';
+			content = '';
+			onClose();
+		}
+	}
+
+	function handleKeyClose(event) {
+		if (event.key === 'Escape') {
+			onClose();
+		}
+	}
+</script>
 
 {#if show}
 	<div
